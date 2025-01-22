@@ -18,6 +18,6 @@ The exercises are divided into two section:
 
 2.  Merging Data and Applying Weights.
 
-They are then divided into sub-sections based on the the statistical software used (R, SPSS and SAS!!!).
+They are then divided into sub-sections based on the the statistical software used (R and SPSS).
 
 Questions and answers are included to help assess understanding of the results.
