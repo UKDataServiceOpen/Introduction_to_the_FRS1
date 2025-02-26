@@ -204,10 +204,7 @@ background: white;
   <li><a href="#preparing-the-datasets" id="toc-preparing-the-datasets" class="nav-link" data-scroll-target="#preparing-the-datasets">3. Preparing the datasets</a></li>
   <li><a href="#the-variables" id="toc-the-variables" class="nav-link" data-scroll-target="#the-variables">4. The variables</a></li>
   </ul></li>
-  <li><a href="#explore-the-datasets" id="toc-explore-the-datasets" class="nav-link" data-scroll-target="#explore-the-datasets">Explore the datasets</a>
-  <ul class="collapse">
-  <li><a href="#examining-the-variables" id="toc-examining-the-variables" class="nav-link" data-scroll-target="#examining-the-variables">Examining the variables</a></li>
-  </ul></li>
+  <li><a href="#explore-the-datasets" id="toc-explore-the-datasets" class="nav-link" data-scroll-target="#explore-the-datasets">Explore the datasets</a></li>
   <li><a href="#merging-datasets" id="toc-merging-datasets" class="nav-link" data-scroll-target="#merging-datasets">Merging datasets</a></li>
   <li><a href="#applying-the-weight" id="toc-applying-the-weight" class="nav-link" data-scroll-target="#applying-the-weight">Applying the weight</a></li>
   </ul>
@@ -281,8 +278,8 @@ GET FILE='UKDA-9252-spss/spss/spss28/pension.sav'.</code></pre>
 <p>In this exercise, we will use only a few variables from each table. Therefore, we will create subset datasets from these two tables, containing the variables needed for the exercise. The tables below display the selected variables (names and labels) from each table.</p>
 <table class="table-striped table-hover table">
 <colgroup>
-<col style="width: 43%">
-<col style="width: 56%">
+<col style="width: 44%">
+<col style="width: 55%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -377,82 +374,11 @@ Save OUTFILE='frs_pension2223_short.sav'
 </section>
 <section id="explore-the-datasets" class="level1">
 <h1>Explore the datasets</h1>
-<p>Let’s have a look at the two newly generated datasets frs_adult2223_short and frs_pension2223_short.</p>
-<p>We will start with the frs_adult2223_short dataset. Either inspect variables and cases in the <code>Data View</code> or use the code below to <code>display a dictionary</code> of all the variables in the dataset.</p>
-<pre><code>GET FILE='UKDA-9252-spss/spss/frs_adult2223_short.sav'.
-    DISPLAY DICTIONARY.</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="SPSS images /Picture 4.png" class="img-fluid figure-img"></p>
-<figcaption>SPSS dictionary for frs_adult2223_short dataset</figcaption>
-</figure>
-</div>
-<p>Now, let’s have a quick look at the frs_pension2223_short dataset.</p>
-<pre><code>GET FILE='UKDA-9252-spss/spss/frs_pension2223_short.sav'.
-  DISPLAY DICTIONARY.</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="SPSS images /Picture 9.png" class="img-fluid figure-img"></p>
-<figcaption>SPSS dictionary for frs_pension2223_short dataset</figcaption>
-</figure>
-</div>
-<p>You can have a comprehensive information about the data using the <code>codebook</code> command. So, let’s explore frs_adult2223_short dataset.</p>
-<pre><code>GET FILE='UKDA-9252-spss/spss/frs_adult2223_short.sav'.
-    CODEBOOK all.</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="SPSS images /Picture 6.png" class="img-fluid figure-img"></p>
-<figcaption>SPSS codebook output of the first three variables in frs_adult2223_short dataset</figcaption>
-</figure>
-</div>
-<p>Now, let’s examine the frs_pension2223_short dataset.</p>
-<pre><code>GET FILE='UKDA-9252-spss/spss/frs_pension2223_short.sav'.
-  CODEBOOK all.</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="SPSS images /Picture 8.png" class="img-fluid figure-img"></p>
-<figcaption>SPSS codebook output of the first variable in frs_ pension2223_short dataset</figcaption>
-</figure>
-</div>
-<section id="examining-the-variables" class="level2">
-<h2 class="anchored" data-anchor-id="examining-the-variables">Examining the variables</h2>
-<p>Let’s now examine the frequency of the variables HEALTH1, SEX, and IAGEGR4 in the frs_adult2223_short dataset.</p>
-<p>We can use the <code>FREQUENCIES</code> command to create a frequency table.</p>
-<pre><code>GET FILE='UKDA-9252-spss/spss/frs_adult2223_short.sav.
-FREQUENCIES VARIABLES=HEALTH1 SEX IAGEGR4
-  /ORDER=ANALYSIS.</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="SPSS images /Picture 11.png" class="img-fluid figure-img"></p>
-<figcaption>SPSS output of frequencies of the variables HEALTH1, SEX, and IAGEGR4 in the frs_adult2223_short dataset</figcaption>
-</figure>
-</div>
-<p>Let’s now examine the frequency of the variable PENTYPE in the frs_pension2223_short dataset.</p>
-<pre><code>GET FILE='UKDA-9252-spss/spss/frs_pension2223_short.sav'.  
-FREQUENCIES VARIABLES=PENTYPE
-  /ORDER=ANALYSIS.</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="SPSS images /Picture 14.png" class="img-fluid figure-img"></p>
-<figcaption>SPSS output of frequency of the variable PENTYPE in the frs_pension2223_short dataset</figcaption>
-</figure>
-</div>
-<p>The amount of last payment from pension PENPAY is a continuous variable. So, we will use <code>DESCRIPTIVES</code> instead of <code>FREQUENCIES</code> command.</p>
-<p>The <code>DESCRIPTIVES</code> command provides a summary of the main statistics including the rang, minimum and maximum values, the mean, and the standard deviation. This command is useful for assessing and detecting extreme values.</p>
-<pre><code>GET FILE='UKDA-9252-spss/spss/frs_pension2223_short.sav'.
-DESCRIPTIVES VARIABLES=PENPAY
-  /STATISTICS=MEAN STDDEV RANGE MIN MAX.</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="SPSS images /Picture 13.png" class="img-fluid figure-img"></p>
-<figcaption>SPSS output of descriptives of the variable PENPAY in the frs_pension2223_short dataset</figcaption>
-</figure>
-</div>
-</section>
+<p>If you want to learn more about the two newly generated datasets frs_adult2223_short and frs_pension2223_short, as well as the variables we will use in this exercise, see “<a href="https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20SPSS.html#explore-the-datasets">Explore the datasets</a>” and “<a href="https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20SPSS.html#examining-variables">Examining the variables</a>” sections in <a href="https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20SPSS.html">Exercise 1 : Using SPSS</a>.</p>
 </section>
 <section id="merging-datasets" class="level1">
 <h1>Merging datasets</h1>
-<p>Since the FRS data are relational database collected at different level: households, families (benefit units), and individuals (persons), and the datasets are available in several data files, with some focus on specialised topics such as assets, childcare, mortgage, pensions …etc. (see section #), you may want at some point to conduct analysis at different data levels or need to explore the association between the FRS variables but they are available in different data files.</p>
+<p>Since the FRS data are relational database collected at different level: households, families (benefit units), and individuals (persons), and the datasets are available in several data files, with some focus on specialised topics such as assets, childcare, mortgage, pensions …etc., you may want at some point to conduct analysis at different data levels or need to explore the association between the FRS variables but they are available in different data files.</p>
 <p>For example, what if we want to examine the association between pension type and gender?</p>
 <p>In that case, we need to merge data as the two variables of interest are in two different datasets: SEX, which measures gender is in frs_adult2223_short, and PENTYPE, which measures Pension Type is in frs_pension2223_short.</p>
 <p>To merge these datasets, you need to use a common identifier - unique keys present across all datasets involved in the merge. In this case, the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252#!/documentation">FRS documentation</a> provides us with the necessary information: what are the available identifiers and how to use them depending on which datasets we want to merge.</p>
@@ -588,9 +514,9 @@ FREQUENCIES VARIABLES=PENTYPE
 </ol>
 <table class="table-striped table-hover table">
 <colgroup>
-<col style="width: 62%">
-<col style="width: 18%">
-<col style="width: 20%">
+<col style="width: 56%">
+<col style="width: 21%">
+<col style="width: 21%">
 </colgroup>
 <thead>
 <tr class="header">

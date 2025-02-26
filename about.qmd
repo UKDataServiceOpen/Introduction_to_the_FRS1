@@ -10,7 +10,7 @@ In the exercises, we use data from the Family Resources Survey (FRS), 2022-2023 
 
 -   Explore the association between variables available in different FRS datasets.
 
--    Assess the effect of survey weights on the results.
+-   Assess the effect of survey weights on the results.
 
 The exercises are divided into two section:
 
@@ -18,6 +18,6 @@ The exercises are divided into two section:
 
 2.  Merging Data and Applying Weights.
 
-They are then divided into sub-sections based on the the statistical software used (R, SPSS and SAS!!!).
+They are then divided into sub-sections based on the the statistical software used (R and SPSS).
 
-Questions and answers are included to help assess understanding of the results.
+Questions and answers are included to assess understanding of the results.

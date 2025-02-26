@@ -114,7 +114,7 @@ You can see that frs_adult2223 table has 587 variables. The specialised table fr
 In this exercise, we will use only a few variables from each table. Therefore, we will create subset datasets from these two tables, containing the variables needed for the exercise. The tables below display the selected variables (names and labels) from each table.
 
 | **Variable name**                            | **Variable label**                                        |
-|----------------------------------------------|-----------------------------------------------------------|
+|--------------------------------|----------------------------------------|
 | **Variables from the frs_adult2223 table**   |                                                           |
 | SERNUM                                       | Sernum                                                    |
 | BENUNIT                                      | Benefit Unit                                              |
@@ -145,85 +145,7 @@ frs_pension2223_short <- frs_pension2223%>% select (SERNUM, BENUNIT, PERSON, PEN
 
 # Explore the datasets
 
-Let’s have a look at the two newly generated datasets frs_adult2223_short and frs_pension2223_short.
-
-We will start with the frs_adult2223_short dataset. Either inspect variables and cases in the data editor \[run the code `View(dataframe)`\] or use the code below to produce a summary of the variables in the dataset.
-
-```{r}
-dim(frs_adult2223_short)      #Gives the number of rows (observations) and columns (variables)
-```
-
-```{r}
-names(frs_adult2223_short)    #List variable names in their actual order in the dataset
-```
-
-```{r}
-head(data.frame(frs_adult2223_short))     #Displays the first six lines of a dataset
-```
-
-**Note**: You can use `tail(data.frame(frs_adult2223_short))` to display the last few rows of a dataset.
-
-Now, let’s also have a look at the frs_pension2223_short dataset.
-
-```{r}
-dim(frs_pension2223_short)    #Gives the number of rows (observations) and columns (variables)
-```
-
-```{r}
-names(frs_pension2223_short)  #List variable names in their actual order in the dataset
-```
-
-```{r}
-head(data.frame(frs_pension2223_short))     #Displays the first six lines of a dataset
-```
-
-**Note**: The  `haven`  R package facilitates the conversion of categorical data from SPSS or Stata into R. While it can preserve the original numeric values, it also contains attributes, which are special types of R objects with names that are accessible via the `attr()` function. In this context, each variable has two key attributes: a ‘label’, which is the description of the variable, and ‘labels’, which are the value labels.
-
-Furthermore, the `haven` R package allows for the conversion of these imported numeric variables into R factors. In this conversion, the factors are created with levels (i.e., categories) reflecting the value labels from SPSS or Stata.
-
-Let’s examine the variables’ description and value labels of HEALTH1, SEX and IAGEGR4 from frs_adult2223_short dataset.
-
-```{r}
-cat(attr(frs_adult2223_short$HEALTH1,"label"))
-```
-
-```{r}
-names(attr(frs_adult2223_short$HEALTH1,"labels"))
-```
-
-```{r}
-cat(attr(frs_adult2223_short$SEX,"label"))
-```
-
-```{r}
-names(attr(frs_adult2223_short$SEX,"labels"))
-```
-
-```{r}
-cat(attr(frs_adult2223_short$IAGEGR4,"label"))
-```
-
-```{r}
-names(attr(frs_adult2223_short$IAGEGR4,"labels"))
-```
-
-Now, let’s examine the variables’ description and value labels of PENPAY and PENTYPE from frs_pension2223_short dataset.
-
-```{r}
-cat(attr(frs_pension2223_short$PENPAY,"label"))
-```
-
-```{r}
-names(attr(frs_pension2223_short$PENPAY,"labels"))
-```
-
-```{r}
-cat(attr(frs_pension2223_short$PENTYPE,"label"))
-```
-
-```{r}
-names(attr(frs_pension2223_short$PENTYPE,"labels"))
-```
+If you want to learn more about the two newly generated datasets frs_adult2223_short and frs_pension2223_short, see “[Explore the datasets](https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20R.html#explore-the-datasets)” section in [Exercise 1 : Using R](https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20R.html).
 
 ## Examining the variables
 
@@ -291,7 +213,7 @@ The amount of last payment from pension PENPAY is a continuous variable. So, we 
 
 # Merging datasets
 
-Since the FRS data are relational database collected at different level: households, families (benefit units), and individuals (persons), and the datasets are available in several data files, with some focus on specialised topics such as assets, childcare, mortgage, pensions …etc. (see section #), you may want at some point to conduct analysis at different data levels or need to explore the association between the FRS variables but they are available in different data files.
+Since the FRS data are relational database collected at different level: households, families (benefit units), and individuals (persons), and the datasets are available in several data files, with some focus on specialised topics such as assets, childcare, mortgage, pensions …etc., you may want at some point to conduct analysis at different data levels or need to explore the association between the FRS variables but they are available in different data files.
 
 For example, what if we want to examine the association between pension type and gender?
 
@@ -421,7 +343,7 @@ The weights in the FRS also ensure that estimates reflect the sample design so t
 2.  We summarise the weighed and unweighted percentages of PENTYPEf in the table below to make the comparison easier:
 
 | **PENTYPEf**                                                 | **Weighted (%)** | **Unweighted (%)** |
-|--------------------------------------------------------------|------------------|--------------------|
+|-----------------------------------------|----------------|----------------|
 | Employee pension - occupational, workplace, group personal   | 73.37            | 73.24              |
 | Individual personal pension                                  | 18.32            | 18.68              |
 | Survivor‹s pension (workplace or individual personal pension | 5.94             | 5.78               |

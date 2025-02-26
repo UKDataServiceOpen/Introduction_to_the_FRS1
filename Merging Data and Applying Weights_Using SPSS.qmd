@@ -99,7 +99,7 @@ You can see that frs_adult2223 table has 587 variables. The specialised table fr
 In this exercise, we will use only a few variables from each table. Therefore, we will create subset datasets from these two tables, containing the variables needed for the exercise. The tables below display the selected variables (names and labels) from each table.
 
 | **Variable name**                            | **Variable label**                                        |
-|----------------------------------------------|-----------------------------------------------------------|
+|--------------------------------|----------------------------------------|
 | **Variables from the frs_adult2223 table**   |                                                           |
 | SERNUM                                       | Sernum                                                    |
 | BENUNIT                                      | Benefit Unit                                              |
@@ -141,83 +141,11 @@ Save OUTFILE='frs_pension2223_short.sav'
 
 # Explore the datasets
 
-Let’s have a look at the two newly generated datasets frs_adult2223_short and frs_pension2223_short.
-
-We will start with the frs_adult2223_short dataset. Either inspect variables and cases in the `Data View` or use the code below to `display a dictionary` of all the variables in the dataset.
-
-```         
-GET FILE='UKDA-9252-spss/spss/frs_adult2223_short.sav'.
-    DISPLAY DICTIONARY.
-```
-
-![SPSS dictionary for frs_adult2223_short dataset](SPSS%20images%20/Picture%204.png)
-
-Now, let’s have a quick look at the frs_pension2223_short dataset.
-
-```         
-GET FILE='UKDA-9252-spss/spss/frs_pension2223_short.sav'.
-  DISPLAY DICTIONARY.
-```
-
-![SPSS dictionary for frs_pension2223_short dataset](SPSS%20images%20/Picture%209.png)
-
-You can have a comprehensive information about the data using the `codebook` command. So, let’s explore frs_adult2223_short dataset.
-
-```         
-GET FILE='UKDA-9252-spss/spss/frs_adult2223_short.sav'.
-    CODEBOOK all.
-```
-
-![SPSS codebook output of the first three variables in frs_adult2223_short dataset](SPSS%20images%20/Picture%206.png)
-
-Now, let’s examine the frs_pension2223_short dataset.
-
-```         
-GET FILE='UKDA-9252-spss/spss/frs_pension2223_short.sav'.
-  CODEBOOK all.
-```
-
-![SPSS codebook output of the first variable in frs\_ pension2223_short dataset](SPSS%20images%20/Picture%208.png)
-
-## Examining the variables
-
-Let’s now examine the frequency of the variables HEALTH1, SEX, and IAGEGR4 in the frs_adult2223_short dataset.
-
-We can use the `FREQUENCIES` command to create a frequency table.
-
-```         
-GET FILE='UKDA-9252-spss/spss/frs_adult2223_short.sav.
-FREQUENCIES VARIABLES=HEALTH1 SEX IAGEGR4
-  /ORDER=ANALYSIS.
-```
-
-![SPSS output of frequencies of the variables HEALTH1, SEX, and IAGEGR4 in the frs_adult2223_short dataset](SPSS%20images%20/Picture%2011.png)
-
-Let’s now examine the frequency of the variable PENTYPE in the frs_pension2223_short dataset.
-
-```         
-GET FILE='UKDA-9252-spss/spss/frs_pension2223_short.sav'.  
-FREQUENCIES VARIABLES=PENTYPE
-  /ORDER=ANALYSIS.
-```
-
-![SPSS output of frequency of the variable PENTYPE in the frs_pension2223_short dataset](SPSS%20images%20/Picture%2014.png)
-
-The amount of last payment from pension PENPAY is a continuous variable. So, we will use `DESCRIPTIVES` instead of `FREQUENCIES` command.
-
-The `DESCRIPTIVES` command provides a summary of the main statistics including the rang, minimum and maximum values, the mean, and the standard deviation. This command is useful for assessing and detecting extreme values.
-
-```         
-GET FILE='UKDA-9252-spss/spss/frs_pension2223_short.sav'.
-DESCRIPTIVES VARIABLES=PENPAY
-  /STATISTICS=MEAN STDDEV RANGE MIN MAX.
-```
-
-![SPSS output of descriptives of the variable PENPAY in the frs_pension2223_short dataset](SPSS%20images%20/Picture%2013.png)
+If you want to learn more about the two newly generated datasets frs_adult2223_short and frs_pension2223_short, as well as the variables we will use in this exercise, see “[Explore the datasets](https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20SPSS.html#explore-the-datasets)” and “[Examining the variables](https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20SPSS.html#examining-variables)” sections in [Exercise 1 : Using SPSS](https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20SPSS.html).
 
 # Merging datasets
 
-Since the FRS data are relational database collected at different level: households, families (benefit units), and individuals (persons), and the datasets are available in several data files, with some focus on specialised topics such as assets, childcare, mortgage, pensions …etc. (see section #), you may want at some point to conduct analysis at different data levels or need to explore the association between the FRS variables but they are available in different data files.
+Since the FRS data are relational database collected at different level: households, families (benefit units), and individuals (persons), and the datasets are available in several data files, with some focus on specialised topics such as assets, childcare, mortgage, pensions …etc., you may want at some point to conduct analysis at different data levels or need to explore the association between the FRS variables but they are available in different data files.
 
 For example, what if we want to examine the association between pension type and gender?
 
@@ -351,7 +279,7 @@ The weights in the FRS also ensure that estimates reflect the sample design so t
 2.  We summarise the weighed and unweighted percentages of PENTYPE in the table below to make the comparison easier:
 
 | **PENTYPE**                                                  | **Weighted (%)** | **Unweighted (%)** |
-|--------------------------------------------------------------|------------------|--------------------|
+|-----------------------------------------|----------------|----------------|
 | Employee pension - occupational, workplace, group personal   | 73.37            | 73.24              |
 | Individual personal pension                                  | 18.32            | 18.68              |
 | Survivor‹s pension (workplace or individual personal pension | 5.94             | 5.78               |

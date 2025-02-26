@@ -386,8 +386,8 @@ The following objects are masked from 'package:stats':
 <p>In this exercise, we will use only a few variables from each table. Therefore, we will create subset datasets from these two tables, containing the variables needed for the exercise. The tables below display the selected variables (names and labels) from each table.</p>
 <table class="table-striped table-hover table">
 <colgroup>
-<col style="width: 43%">
-<col style="width: 56%">
+<col style="width: 44%">
+<col style="width: 55%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -468,136 +468,13 @@ The following objects are masked from 'package:stats':
 </section>
 <section id="explore-the-datasets" class="level1">
 <h1>Explore the datasets</h1>
-<p>Let’s have a look at the two newly generated datasets frs_adult2223_short and frs_pension2223_short.</p>
-<p>We will start with the frs_adult2223_short dataset. Either inspect variables and cases in the data editor [run the code <code>View(dataframe)</code>] or use the code below to produce a summary of the variables in the dataset.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(frs_adult2223_short)      <span class="co">#Gives the number of rows (observations) and columns (variables)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 42480     7</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(frs_adult2223_short)    <span class="co">#List variable names in their actual order in the dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "SERNUM"  "BENUNIT" "PERSON"  "GROSS4"  "HEALTH1" "SEX"     "IAGEGR4"</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(frs_adult2223_short))     <span class="co">#Displays the first six lines of a dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  SERNUM BENUNIT PERSON GROSS4 HEALTH1 SEX IAGEGR4
-1      1       1      1    750       1   1       7
-2      1       1      2    750       2   2       7
-3      2       1      1    871       2   1       5
-4      2       2      2    871       2   1       4
-5      2       3      3    871       2   1       4
-6      3       1      1    710       2   1      10</code></pre>
-</div>
-</div>
-<p><strong>Note</strong>: You can use <code>tail(data.frame(frs_adult2223_short))</code> to display the last few rows of a dataset.</p>
-<p>Now, let’s also have a look at the frs_pension2223_short dataset.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(frs_pension2223_short)    <span class="co">#Gives the number of rows (observations) and columns (variables)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 15233     5</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(frs_pension2223_short)  <span class="co">#List variable names in their actual order in the dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "SERNUM"  "BENUNIT" "PERSON"  "PENPAY"  "PENTYPE"</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(frs_pension2223_short))     <span class="co">#Displays the first six lines of a dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  SERNUM BENUNIT PERSON    PENPAY PENTYPE
-1     10       1      2  59.67000       1
-2     14       1      1 148.43836       1
-3     15       1      1 276.16438       1
-4     16       1      1  35.45490       1
-5     16       1      1 144.21534       1
-6     16       1      2  53.00745       1</code></pre>
-</div>
-</div>
-<p><strong>Note</strong>: The  <code>haven</code>  R package facilitates the conversion of categorical data from SPSS or Stata into R. While it can preserve the original numeric values, it also contains attributes, which are special types of R objects with names that are accessible via the <code>attr()</code> function. In this context, each variable has two key attributes: a ‘label’, which is the description of the variable, and ‘labels’, which are the value labels.</p>
-<p>Furthermore, the <code>haven</code> R package allows for the conversion of these imported numeric variables into R factors. In this conversion, the factors are created with levels (i.e., categories) reflecting the value labels from SPSS or Stata.</p>
-<p>Let’s examine the variables’ description and value labels of HEALTH1, SEX and IAGEGR4 from frs_adult2223_short dataset.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_adult2223_short<span class="sc">$</span>HEALTH1,<span class="st">"label"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Whether has a long standing illness</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_adult2223_short<span class="sc">$</span>HEALTH1,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Yes" "No" </code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_adult2223_short<span class="sc">$</span>SEX,<span class="st">"label"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Sex</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_adult2223_short<span class="sc">$</span>SEX,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Male"   "Female"</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_adult2223_short<span class="sc">$</span>IAGEGR4,<span class="st">"label"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Individual Adult 5 Year Age Bands - Anon</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_adult2223_short<span class="sc">$</span>IAGEGR4,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] "Age 16 to 19"   "Age 20 to 24"   "Age 25 to 29"   "Age 30 to 34"  
- [5] "Age 35 to 39"   "Age 40 to 44"   "Age 45 to 49"   "Age 50 to 54"  
- [9] "Age 55 to 59"   "Age 60 to 64"   "Age 65 to 69"   "Age 70 to 74"  
-[13] "Age 75 or over"</code></pre>
-</div>
-</div>
-<p>Now, let’s examine the variables’ description and value labels of PENPAY and PENTYPE from frs_pension2223_short dataset.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_pension2223_short<span class="sc">$</span>PENPAY,<span class="st">"label"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Amount of last payment from pension</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_pension2223_short<span class="sc">$</span>PENPAY,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>NULL</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_pension2223_short<span class="sc">$</span>PENTYPE,<span class="st">"label"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Pension Type</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_pension2223_short<span class="sc">$</span>PENTYPE,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Employee pension - occupational, workplace, group personal"  
-[2] "Individual personal pension"                                 
-[3] "Survivor‹s pension (workplace or individual personal pension"
-[4] "Income from an annuity ’ not purchased with pension funds"   
-[5] "Income from a trust or covenant"                             
-[6] "Share of employee or personal pension from ex-spouse/partner"</code></pre>
-</div>
-</div>
+<p>If you want to learn more about the two newly generated datasets frs_adult2223_short and frs_pension2223_short, see “<a href="https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20R.html#explore-the-datasets">Explore the datasets</a>” section in <a href="https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20R.html">Exercise 1 : Using R</a>.</p>
 <section id="examining-the-variables" class="level2">
 <h2 class="anchored" data-anchor-id="examining-the-variables">Examining the variables</h2>
 <p>Let’s now examine the frequency of the variables HEALTH1, SEX, and IAGEGR4 in the frs_adult2223_short dataset.</p>
 <p>We can use the <code>table()</code> function to create a frequency table.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span> (frs_adult2223_short<span class="sc">$</span>HEALTH1)     <span class="co">#Create a frequency table for the variable HEALTH1 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span> (frs_adult2223_short<span class="sc">$</span>HEALTH1)     <span class="co">#Create a frequency table for the variable HEALTH1 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     1     2 
@@ -605,7 +482,7 @@ The following objects are masked from 'package:stats':
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>SEX)          <span class="co">#Create a frequency table for the variable SEX</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>SEX)          <span class="co">#Create a frequency table for the variable SEX</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     1     2 
@@ -613,7 +490,7 @@ The following objects are masked from 'package:stats':
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>IAGEGR4)      <span class="co">#Create a frequency table for the variable IAGEGR4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>IAGEGR4)      <span class="co">#Create a frequency table for the variable IAGEGR4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    4    5    6    7    8    9   10   11   12   13   14   15   16 
@@ -622,16 +499,16 @@ The following objects are masked from 'package:stats':
 </div>
 <p>We can use the <code>as_factor()</code> function (included in the <code>haven</code> package) to convert the categorical variables HEALTH1, SEX, and IAGEGR4 into factor variables. The newly generated factor variables HEALTH1f, SEXf, and IAGEGR4f are equivalent to categorical variables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>frs_adult2223_short<span class="sc">$</span>HEALTH1f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_adult2223_short<span class="sc">$</span>HEALTH1)      <span class="co">#Create a new factor variable HEALTH1f from the original variable HEALTH1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>frs_adult2223_short<span class="sc">$</span>HEALTH1f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_adult2223_short<span class="sc">$</span>HEALTH1)      <span class="co">#Create a new factor variable HEALTH1f from the original variable HEALTH1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>frs_adult2223_short<span class="sc">$</span>SEXf<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_adult2223_short<span class="sc">$</span>SEX)            <span class="co"># Create a new factor variable SEXf from the original variable SEX     </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>frs_adult2223_short<span class="sc">$</span>SEXf<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_adult2223_short<span class="sc">$</span>SEX)            <span class="co"># Create a new factor variable SEXf from the original variable SEX     </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>frs_adult2223_short<span class="sc">$</span>IAGEGR4f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_adult2223_short<span class="sc">$</span>IAGEGR4)    <span class="co"># Create a new factor variable IAGEGR4f from the original variable IAGEGR4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>frs_adult2223_short<span class="sc">$</span>IAGEGR4f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_adult2223_short<span class="sc">$</span>IAGEGR4)    <span class="co"># Create a new factor variable IAGEGR4f from the original variable IAGEGR4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>HEALTH1f)       <span class="co"># Create a frequency table for the new factor variable HEALTH1f</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>HEALTH1f)       <span class="co"># Create a frequency table for the new factor variable HEALTH1f</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Yes    No 
@@ -639,7 +516,7 @@ The following objects are masked from 'package:stats':
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>SEXf)           <span class="co"># Create a frequency table for the new factor variable SEXf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>SEXf)           <span class="co"># Create a frequency table for the new factor variable SEXf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Male Female 
@@ -647,7 +524,7 @@ The following objects are masked from 'package:stats':
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>IAGEGR4f)       <span class="co"># Create a frequency table for the new factor variable IAGEGR4f</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>IAGEGR4f)       <span class="co"># Create a frequency table for the new factor variable IAGEGR4f</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Age 16 to 19   Age 20 to 24   Age 25 to 29   Age 30 to 34   Age 35 to 39 
@@ -660,7 +537,7 @@ The following objects are masked from 'package:stats':
 </div>
 <p>Let’s now examine the frequency of the variable PENTYPE in the frs_ frs_pension2223_short dataset.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span> (frs_pension2223_short<span class="sc">$</span>PENTYPE)       <span class="co"># Create a frequency table for the variable PENTYPE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span> (frs_pension2223_short<span class="sc">$</span>PENTYPE)       <span class="co"># Create a frequency table for the variable PENTYPE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     1     2     3     4     5     6 
@@ -668,10 +545,10 @@ The following objects are masked from 'package:stats':
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>frs_pension2223_short<span class="sc">$</span>PENTYPEf<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_pension2223_short<span class="sc">$</span>PENTYPE)    <span class="co"># Create a new factor variable PENTYPEf from the original variable 'PENTYPE’</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>frs_pension2223_short<span class="sc">$</span>PENTYPEf<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_pension2223_short<span class="sc">$</span>PENTYPE)    <span class="co"># Create a new factor variable PENTYPEf from the original variable 'PENTYPE’</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_pension2223_short<span class="sc">$</span>PENTYPEf)       <span class="co"># Create a frequency table for the new factor variable PENTYPEf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_pension2223_short<span class="sc">$</span>PENTYPEf)       <span class="co"># Create a frequency table for the new factor variable PENTYPEf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Employee pension - occupational, workplace, group personal 
@@ -690,7 +567,7 @@ Share of employee or personal pension from ex-spouse/partner
 </div>
 <p>The amount of last payment from pension PENPAY is a continuous variable. So, we will use <code>summary()</code> instead of <code>table()</code>. The <code>summary()</code> function provides a summary of the main statistics including the minimum and maximum values, the mean, the median and the quartiles. This function is useful for assessing and detecting extreme values.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">summary</span>(frs_pension2223_short<span class="sc">$</span>PENPAY)      <span class="co">#Create a summary table for the variable PENPAY</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">summary</span>(frs_pension2223_short<span class="sc">$</span>PENPAY)      <span class="co">#Create a summary table for the variable PENPAY</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.      NA's 
    0.0002   32.2192   88.1425  155.2260  211.2370 1562.5645       490 </code></pre>
@@ -700,7 +577,7 @@ Share of employee or personal pension from ex-spouse/partner
 </section>
 <section id="merging-datasets" class="level1">
 <h1>Merging datasets</h1>
-<p>Since the FRS data are relational database collected at different level: households, families (benefit units), and individuals (persons), and the datasets are available in several data files, with some focus on specialised topics such as assets, childcare, mortgage, pensions …etc. (see section #), you may want at some point to conduct analysis at different data levels or need to explore the association between the FRS variables but they are available in different data files.</p>
+<p>Since the FRS data are relational database collected at different level: households, families (benefit units), and individuals (persons), and the datasets are available in several data files, with some focus on specialised topics such as assets, childcare, mortgage, pensions …etc., you may want at some point to conduct analysis at different data levels or need to explore the association between the FRS variables but they are available in different data files.</p>
 <p>For example, what if we want to examine the association between pension type and gender?</p>
 <p>In that case, we need to merge data as the two variables of interest are in two different datasets: SEXf, which measures gender is in frs_adult2223_short, and PENTYPE, which measures Pension Type is in frs_pension2223_short.</p>
 <p>To merge these datasets, you need to use a common identifier - unique keys present across all datasets involved in the merge. In this case, the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252#!/documentation">FRS documentation</a> provides us with the necessary information: what are the available identifiers and how to use them depending on which datasets we want to merge.</p>
@@ -709,7 +586,7 @@ Share of employee or personal pension from ex-spouse/partner
 <p>In this example we will use inner merge. So, we expect that the number of observations in the merged dataset will be equal to the number of observations in the smaller dataset that have all three key variables in the larger dataset. The exact number of observations in the merged dataset depends on how many of the three key variables match between the two datasets.</p>
 <p>To merge frs_adult2223_short and frs_pension2223_short datasets, we use the following code (we will name the new data merged_data):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>merged_data <span class="ot">&lt;-</span> <span class="fu">merge</span>(frs_adult2223_short,frs_pension2223_short, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"SERNUM"</span>, <span class="st">"BENUNIT"</span>, <span class="st">"PERSON"</span>))   <span class="co"># Specify which datasets to merge and which columns to use for merging</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>merged_data <span class="ot">&lt;-</span> <span class="fu">merge</span>(frs_adult2223_short,frs_pension2223_short, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"SERNUM"</span>, <span class="st">"BENUNIT"</span>, <span class="st">"PERSON"</span>))   <span class="co"># Specify which datasets to merge and which columns to use for merging</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Note</strong>: By default, if you do not specify the parameter ‘all’, the <code>merge</code> function carry out an inner join, which keeps only the rows that have matching values in all three key columns in both datasets.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -729,13 +606,13 @@ Share of employee or personal pension from ex-spouse/partner
 <li><p>This outcome is expected because the new merged data will include all the matched observations (rows) based on the total number of unique key combinations in both datasets. In this case, the three unique keys we used from both datasets SERNUM, BENUNIT and PERSON matched 15233 observations between the two datasets frs_adult2223_short and frs_pension2223_short, which are all the observations in frs_pension2223_short dataset (the smaller dataset). Also, the number of variables in the new merged_data (13 variables) represents the total number of variables in frs_adult2223_short and frs_pension2223_short datasets.</p></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(merged_data)              <span class="co"># Get the number of observations and variables in the new merged_data dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(merged_data)              <span class="co"># Get the number of observations and variables in the new merged_data dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 15233    13</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(merged_data)            <span class="co">#Get the names of variables in the new merged_data dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(merged_data)            <span class="co">#Get the names of variables in the new merged_data dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "SERNUM"   "BENUNIT"  "PERSON"   "GROSS4"   "HEALTH1"  "SEX"     
  [7] "IAGEGR4"  "HEALTH1f" "SEXf"     "IAGEGR4f" "PENPAY"   "PENTYPE" 
@@ -747,7 +624,7 @@ Share of employee or personal pension from ex-spouse/partner
 </div>
 <p>Before we assess the association between PENTYPEf and SEXf, let’s check the frequencies of the two variables after merging the two datasets frs_adult2223_short and frs_pension2223_short.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(merged_data<span class="sc">$</span>SEXf)       <span class="co"># Frequency tables of gender SEXf after merging frs_adult2223_short and frs_pension2223_short </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(merged_data<span class="sc">$</span>SEXf)       <span class="co"># Frequency tables of gender SEXf after merging frs_adult2223_short and frs_pension2223_short </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Male Female 
@@ -755,7 +632,7 @@ Share of employee or personal pension from ex-spouse/partner
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(merged_data<span class="sc">$</span>PENTYPEf)    <span class="co"># Frequency tables of pension type PENTYPEf after the merge</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(merged_data<span class="sc">$</span>PENTYPEf)    <span class="co"># Frequency tables of pension type PENTYPEf after the merge</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Employee pension - occupational, workplace, group personal 
@@ -774,7 +651,7 @@ Share of employee or personal pension from ex-spouse/partner
 </div>
 <p>To assess the association between pension type PENTYPEf and gender SEXf (how pension type varies by gender), we use the following code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(merged_data<span class="sc">$</span>PENTYPEf,merged_data<span class="sc">$</span>SEXf)     <span class="co"># How pension type varies by gender</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(merged_data<span class="sc">$</span>PENTYPEf,merged_data<span class="sc">$</span>SEXf)     <span class="co"># How pension type varies by gender</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                              
                                                                Male Female
@@ -810,7 +687,7 @@ Share of employee or personal pension from ex-spouse/partner
 <li>First, we install the survey package and load it into the R session.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">library</span>(survey)          <span class="co"># Load it into R session</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">library</span>(survey)          <span class="co"># Load it into R session</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: grid</code></pre>
 </div>
@@ -848,13 +725,13 @@ Attaching package: 'survey'</code></pre>
 <li>Then, we declare the weight GROSS4 using svydesign()</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>merged_data_design<span class="ot">&lt;-</span><span class="fu">svydesign</span>(<span class="at">data =</span> merged_data, <span class="at">id =</span> <span class="sc">~</span><span class="dv">1</span>, <span class="at">nest =</span> <span class="cn">TRUE</span>,<span class="at">weights =</span> merged_data<span class="sc">$</span>GROSS4)    <span class="co"># Using the svydesign() function to declare the weight</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>merged_data_design<span class="ot">&lt;-</span><span class="fu">svydesign</span>(<span class="at">data =</span> merged_data, <span class="at">id =</span> <span class="sc">~</span><span class="dv">1</span>, <span class="at">nest =</span> <span class="cn">TRUE</span>,<span class="at">weights =</span> merged_data<span class="sc">$</span>GROSS4)    <span class="co"># Using the svydesign() function to declare the weight</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="1">
 <li>To create the <strong>weighted frequency table</strong> for the PENTYPEf variable, use:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svytable</span>(<span class="sc">~</span>PENTYPEf,merged_data_design)    <span class="co"># Creating weighted frequency table using svytable()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svytable</span>(<span class="sc">~</span>PENTYPEf,merged_data_design)    <span class="co"># Creating weighted frequency table using svytable()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>PENTYPEf
   Employee pension - occupational, workplace, group personal 
@@ -875,7 +752,7 @@ Share of employee or personal pension from ex-spouse/partner
 <li>We can also run <strong>weighted percentages</strong> for the PENTYPEf variable using <code>prop.table(svytable())</code> and round the results using <code>round()</code> function:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">svytable</span>(<span class="sc">~</span>PENTYPEf,merged_data_design)),<span class="dv">4</span>)<span class="sc">*</span><span class="dv">100</span>     <span class="co"># Creating weighted percentages using prop.table(svytable()) and round the results to four digits using round() function</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">svytable</span>(<span class="sc">~</span>PENTYPEf,merged_data_design)),<span class="dv">4</span>)<span class="sc">*</span><span class="dv">100</span>     <span class="co"># Creating weighted percentages using prop.table(svytable()) and round the results to four digits using round() function</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>PENTYPEf
   Employee pension - occupational, workplace, group personal 
@@ -896,7 +773,7 @@ Share of employee or personal pension from ex-spouse/partner
 <li>Now we run <strong>unweighted frequencies and percentages</strong> for the PENTYPEf variable to compare with the weighted frequencies and percentages:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(merged_data<span class="sc">$</span>PENTYPEf)          <span class="co"># Creating unweighted frequency table </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(merged_data<span class="sc">$</span>PENTYPEf)          <span class="co"># Creating unweighted frequency table </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Employee pension - occupational, workplace, group personal 
@@ -914,7 +791,7 @@ Share of employee or personal pension from ex-spouse/partner
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(merged_data<span class="sc">$</span>PENTYPEf, <span class="at">useNA =</span> <span class="st">"ifany"</span>)) ,<span class="dv">4</span>)<span class="sc">*</span><span class="dv">100</span>    <span class="co">#Creating unweighted percentages using prop.table() and round the results to four digits using round() functions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(merged_data<span class="sc">$</span>PENTYPEf, <span class="at">useNA =</span> <span class="st">"ifany"</span>)) ,<span class="dv">4</span>)<span class="sc">*</span><span class="dv">100</span>    <span class="co">#Creating unweighted percentages using prop.table() and round the results to four digits using round() functions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Employee pension - occupational, workplace, group personal 
@@ -950,9 +827,9 @@ Share of employee or personal pension from ex-spouse/partner
 </ol>
 <table class="table-striped table-hover table">
 <colgroup>
-<col style="width: 62%">
-<col style="width: 18%">
-<col style="width: 20%">
+<col style="width: 56%">
+<col style="width: 21%">
+<col style="width: 21%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1002,7 +879,7 @@ Share of employee or personal pension from ex-spouse/partner
 <p>Carry out a weighted and unweighted analysis to assess the frequencies and percentages of the gender variable in the merged_data (use the variable: SEXf).</p>
 <p><strong>Outcome!</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svytable</span>(<span class="sc">~</span>SEXf,merged_data_design)    <span class="co"># Creating weighted frequencies for SEXf using svytable()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svytable</span>(<span class="sc">~</span>SEXf,merged_data_design)    <span class="co"># Creating weighted frequencies for SEXf using svytable()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>SEXf
    Male  Female 
@@ -1010,7 +887,7 @@ Share of employee or personal pension from ex-spouse/partner
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">svytable</span>(<span class="sc">~</span>SEXf,merged_data_design)),<span class="dv">4</span>)<span class="sc">*</span><span class="dv">100</span>       <span class="co"># Creating weighted percentages for SEXf using prop.table(svytable()) and round the results to four digits using round() function</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">svytable</span>(<span class="sc">~</span>SEXf,merged_data_design)),<span class="dv">4</span>)<span class="sc">*</span><span class="dv">100</span>       <span class="co"># Creating weighted percentages for SEXf using prop.table(svytable()) and round the results to four digits using round() function</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>SEXf
   Male Female 
@@ -1018,7 +895,7 @@ Share of employee or personal pension from ex-spouse/partner
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(merged_data<span class="sc">$</span>SEXf)          <span class="co"># Creating unweighted frequency table for SEXf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(merged_data<span class="sc">$</span>SEXf)          <span class="co"># Creating unweighted frequency table for SEXf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Male Female 
@@ -1026,7 +903,7 @@ Share of employee or personal pension from ex-spouse/partner
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(merged_data<span class="sc">$</span>SEXf, <span class="at">useNA =</span> <span class="st">"ifany"</span>)) ,<span class="dv">4</span>)<span class="sc">*</span><span class="dv">100</span>    <span class="co"># Creating unweighted percentages using prop.table() and round the results to four digits using round() functions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(merged_data<span class="sc">$</span>SEXf, <span class="at">useNA =</span> <span class="st">"ifany"</span>)) ,<span class="dv">4</span>)<span class="sc">*</span><span class="dv">100</span>    <span class="co"># Creating unweighted percentages using prop.table() and round the results to four digits using round() functions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Male Female 

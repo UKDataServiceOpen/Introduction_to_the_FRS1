@@ -131,7 +131,7 @@ You can see that the frs_frs2223 table has the largest number of variables (7,07
 
 ## Answers
 
-1.  These tables have different units of analysis. The frs_adult2223 table includes data at the individual level, the frs_benunit2223 and the frs_frs2223 tables have data at the benefit unit (family) level. The frs_pension2223 table is a specialised data that can be analysed at person, benefit unit and household level. It is a subset data representing participants who are receiving income from a pension (see the [FRS documentation](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252#!/documentation) for the definition of each level). Therefore, the frs_pension2223 table has the smallest number of variables.
+1.  These tables have different units of analysis. The frs_adult2223 table includes data at the individual level, the frs_benunit2223 and the frs_frs2223 tables have data at the benefit unit (family) level. The frs_pension2223 table is a specialised data that can be analysed at person, benefit unit and household level. It is a subset of data representing participants who are receiving income from a pension (see the [FRS documentation](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252#!/documentation) for the definition of each level). Therefore, the frs_pension2223 table has the smallest number of variables.
 
 2.  The frs_pension2223 table has the smallest number of observations (15233 observations).
 
@@ -143,7 +143,7 @@ You can see that the frs_frs2223 table has the largest number of variables (7,07
 We will only be using a few variables from each table in this exercise. So, we will create subsets data from these four tables, containing the variables we will use in this exercise. The tables below shows the variables (names and labels) that we will select from each FRS table.
 
 | **Variable name**                            | **Variable label**                                        |
-|----------------------------------------------|-----------------------------------------------------------|
+|--------------------------------|----------------------------------------|
 | **Variables from the frs_adult2223 table**   |                                                           |
 | SERNUM                                       | Sernum                                                    |
 | BENUNIT                                      | Benefit Unit                                              |
