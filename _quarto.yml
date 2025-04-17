@@ -1,0 +1,59 @@
+project:
+  type: website
+  output-dir: docs
+  resources: 
+    - pics
+    
+css: ukds.css
+ 
+
+website:
+  sidebar: 
+    style: "floating" 
+    search: false 
+    logo: pics/UKDS_Logos_Col_Grey_300dpi.png
+    contents:
+      - text: "Introduction" 
+        href: index.qmd 
+      - section: "The Hierarchical and Flat File Datasets" 
+        contents: 
+          - Hierarchical and Flat File_Using R.qmd
+          - Hierarchical and Flat File_Using SPSS.qmd
+      - section: "Merging Data and Applying Weights" 
+        contents: 
+          - Merging Data and Applying Weights_Using R.qmd
+          - Merging Data and Applying Weights_Using SPSS.qmd 
+
+
+html:
+    theme: none
+    mainfont: "Arial"
+    title-block-banner: "white"
+    title-block-banner-color: "#742082"
+    toc: true
+    smooth-scroll: true
+    toc-location: top
+    background-size: "15%"
+    background-position: "left top"
+    background-repeat: "no-repeat"
+    padding-left: "50px"
+    padding-top: "100px"
+    background-origin: "content-box"
+    background-image: url("/Users/rihabdahab/Desktop/Introduction_to_the_FRS1/pics/UKDS_Logos_Col_Grey_300dpi.png")
+    text-align: left
+    margin-top: "30px"
+    margin-bottom: "30px"
+    title-color: "#742082"
+    h1-color: "#742082"
+    h2-color: "#742082"
+    h3-color: "#742082"
+    h4-color: "#742082"
+    
+editor: visual
+
+execute:
+    warning: false 
+
+
+
+

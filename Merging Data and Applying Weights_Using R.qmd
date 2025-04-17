@@ -1,0 +1,392 @@
+---
+title: "Exercise 2 : Using R"
+format: html
+editor: visual
+mainfont: "Arial"
+title-block-banner: "white"
+title-block-banner-color: "#742082"
+toc: true
+smooth-scroll: true
+toc-location: right
+css: ukds.css
+background-size: "15%"
+background-position: "left top"
+background-repeat: "no-repeat"
+padding-left: "50px"
+padding-top: "100px"
+background-origin: "content-box"
+text-align: left
+margin-top: "30px"
+margin-bottom: "30px"
+title-color: "#742082"
+h1-color: "#742082"
+h2-color: "#742082"
+h3-color: "#742082"
+h4-color: "#742082"
+---
+
+Since the FRS data are structured as a relational database collected at different levels—households, families (benefit units), and individuals (persons)—and provided in multiple files, you may at some point want to conduct analysis across different levels. Some files focus on specialised topics such as assets, childcare, mortgages, and pensions, which may require exploring associations between variables entered in separate files.
+
+For example, what if we want to examine how pension type varies across genders?
+
+In that case, it is necessary to combine data, as the two variables of interest are entered in different FRS datasets.
+
+In this exercise, we will show how to merge data from the 2022–2023 Family Resources Survey (FRS) to explore the association between variables available in various FRS datasets. We will also assess the effect of survey weights on the results using R.
+
+
+# Getting started
+
+## 1. The dataset
+
+The dataset we will be using in this exercise is the [Family Resources Survey, 2022-2023](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252). These data are [safeguarded](https://www.ukdataservice.ac.uk/get-data/data-access-policy). You can download them from the UK Data Service after [registration](https://ukdataservice.ac.uk/help/registration/registration-login-faqs/).
+
+To get the Family Resources Survey (FRS), 2022-2023 dataset, go to the data [catalogue page](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252), login to your account (create an account if you do not already have one), download and save the SPSS version, which we will use in this exercise.
+
+Create a new folder to save the downloaded data and analysis work in appropriate location on your machine and give that folder a name.
+
+The exercise below assumes that the dataset has been saved in a new folder named UKDS on your Desktop (Windows computers). The path would typically be `C:\\Users\\YOUR_USER_NAME\\Desktop\\UKDS`. You can change it to the location that best suits you.
+
+Remember to adjust the code below to match the location of the data on your machine.
+
+The FRS is a hierarchical dataset provided every year in multiple data files (known as ‘tables’ in the FRS language). The number of these tables varies, depending on the year of the survey. The 2022-2023 FRS has 25 tables. In this exercise, we will use the general-purpose table “adult.sav” and the specialised table “pension.sav” to:
+
+-   Merge datasets to explore the association between variables available in different FRS tables.
+-   Apply the survey weights and compare unweighted and weighted frequencies and percentages.
+
+## 2. Setting up R
+
+We start with loading all R packages we will be using for this exercise, set the working directory, and import (read) the data into R.
+
+### Loading the R packages
+
+```{r}
+library(dplyr)      # Data manipulation functions
+library(Hmisc)      # Extra statistical functions
+library(tidyverse)  # Data manipulation and visualization
+library(janitor)    # Data cleaning and summary table
+library(knitr)      # Tables in Quarto
+```
+
+### Setting up the working directory
+
+**Note**: Adjust the `setwd()` command below to match the location of the data on your computer
+
+setwd("C:\Users\Your\_Username_here") \# Setting up the working directory
+
+getwd() \# getting the working directory
+
+### Importing (reading) data into R
+
+There are several packages for importing data with different formats into R. The most used packages are `haven`, `foreign`, and `readr`.
+
+In this exercise, we use the `haven` package to import the four FRS tables that we will work with as SPSS files.
+
+```{r}
+library(haven) 				      # load the package haven 
+```
+
+**Note**: If the package `haven` is already installed in the R environment, you just need to recall it from the R library using the function `library(haven)`. If not, you can install it using: `install.packages("haven")`.
+
+For instructions and information about some R packages for importing data with different format into R, see our [Data Skills Module: Exploring crime surveys with R](https://trainingmodules.ukdataservice.ac.uk/crime/#/lessons/eNqUS0tUWq1sC5DMKiLpxGaTuE5f-sj6).
+
+### Opening the two FRS tables in SPSS format in R
+
+Next, we assign a name to the data we want to import into R. We will name the two FRS tables that we want to import to R as frs_adult2223 and frs_pension2223.
+
+```{r}
+# assign names to the data we want to import into R
+
+frs_adult2223 <- read_sav ("UKDA-9252-spss/spss/spss28/adult.sav") 
+frs_pension2223 <- read_sav ("UKDA-9252-spss/spss/spss28/pension.sav") 
+```
+
+## 3. Preparing the datasets
+
+After loading the FRS tables into R, we begin with exploring the frs_adult2223 and frs_pension2223 datasets.
+
+But first, we will have a quick look at the number of observations and the number of the variables in these tables using the `dim()` function:
+
+```{r}
+dim(frs_adult2223)          #Gives the number of rows (observations) and columns (variables) in the frs_adult2223 file
+```
+
+```{r}
+dim(frs_pension2223)        #Gives the number of rows (observations) and columns (variables) in the frs_pension2223 file
+```
+
+You can see that frs_adult2223 table has 587 variables. The specialised table frs_pension2223 has less variables (50 variables).
+
+## 4. The variables
+
+In this exercise, we will use only a few variables from each table. Therefore, we will create subset datasets from these two tables, containing the variables needed for the exercise. The tables below display the selected variables (names and labels) from each table.
+
+| **Variable name**                            | **Variable label**                                        |
+|--------------------------------|----------------------------------------|
+| **Variables from the frs_adult2223 table**   |                                                           |
+| SERNUM                                       | Sernum                                                    |
+| BENUNIT                                      | Benefit Unit                                              |
+| PERSON                                       | Person                                                    |
+| HEALTH1                                      | Whether has a long standing illness                       |
+| SEX                                          | Sex                                                       |
+| IAGEGR4                                      | Individual Adult 5 Year Age Bands - Anon                  |
+| GROSS4                                       | Grossing variable                                         |
+| **Variables from the frs_pension2223 table** |                                                           |
+| SERNUM                                       | Sernum                                                    |
+| BENUNIT                                      | Benefit Unit                                              |
+| PERSON                                       | Person                                                    |
+| PENPAY                                       | Amount of last payment from pension (continuous variable) |
+| PENTYPE                                      | Pension Type                                              |
+
+: {.striped .hover}
+
+```{r}
+#Create subset datasets from the original data files  
+#use a pipeline (the %>% operator)  
+#and the "select" function from the dplyr package 
+#the code below only selects the variables we are interested in
+#We will name the new datasets as frs_adult2223_short and frs_pension2223. 
+
+frs_adult2223_short <- frs_adult2223 %>% select (SERNUM, BENUNIT, PERSON, GROSS4, HEALTH1, SEX, IAGEGR4) 
+frs_pension2223_short <- frs_pension2223%>% select (SERNUM, BENUNIT, PERSON, PENPAY, PENTYPE) 
+```
+
+# Explore the datasets
+
+If you want to learn more about the two newly generated datasets frs_adult2223_short and frs_pension2223_short, see “[Explore the datasets](https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20R.html#explore-the-datasets)” section in [Exercise 1 : Using R](https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20R.html).
+
+## Examining the variables
+
+Let’s now examine the frequency of the variables HEALTH1, SEX, and IAGEGR4 in the frs_adult2223_short dataset.
+
+We can use the `table()` function to create a frequency table.
+
+```{r}
+table (frs_adult2223_short$HEALTH1)     #Create a frequency table for the variable HEALTH1 
+```
+
+```{r}
+table(frs_adult2223_short$SEX)          #Create a frequency table for the variable SEX
+```
+
+```{r}
+table(frs_adult2223_short$IAGEGR4)      #Create a frequency table for the variable IAGEGR4
+```
+
+We can use the `as_factor()` function (included in the `haven` package) to convert the categorical variables HEALTH1, SEX, and IAGEGR4 into factor variables. The newly generated factor variables HEALTH1f, SEXf, and IAGEGR4f are equivalent to categorical variables.
+
+```{r}
+frs_adult2223_short$HEALTH1f<-as_factor(frs_adult2223_short$HEALTH1)      #Create a new factor variable HEALTH1f from the original variable HEALTH1
+```
+
+```{r}
+frs_adult2223_short$SEXf<-as_factor(frs_adult2223_short$SEX)            # Create a new factor variable SEXf from the original variable SEX     
+```
+
+```{r}
+frs_adult2223_short$IAGEGR4f<-as_factor(frs_adult2223_short$IAGEGR4)    # Create a new factor variable IAGEGR4f from the original variable IAGEGR4
+```
+
+```{r}
+table(frs_adult2223_short$HEALTH1f)       # Create a frequency table for the new factor variable HEALTH1f
+```
+
+```{r}
+table(frs_adult2223_short$SEXf)           # Create a frequency table for the new factor variable SEXf
+```
+
+```{r}
+table(frs_adult2223_short$IAGEGR4f)       # Create a frequency table for the new factor variable IAGEGR4f
+```
+
+Let’s now examine the frequency of the variable PENTYPE in the frs\_ frs_pension2223_short dataset.
+
+```{r}
+table (frs_pension2223_short$PENTYPE)       # Create a frequency table for the variable PENTYPE
+```
+
+```{r}
+frs_pension2223_short$PENTYPEf<-as_factor(frs_pension2223_short$PENTYPE)    # Create a new factor variable PENTYPEf from the original variable 'PENTYPE’
+```
+
+```{r}
+table(frs_pension2223_short$PENTYPEf)       # Create a frequency table for the new factor variable PENTYPEf
+```
+
+The amount of last payment from pension PENPAY is a continuous variable. So, we will use `summary()` instead of `table()`. The `summary()` function provides a summary of the main statistics including the minimum and maximum values, the mean, the median and the quartiles. This function is useful for assessing and detecting extreme values.
+
+```{r}
+ summary(frs_pension2223_short$PENPAY)      #Create a summary table for the variable PENPAY
+```
+
+# Merging datasets
+
+To merge data, you need to use a common identifier - unique keys present across all datasets involved in the merge. 
+
+The Background Information and Methodology document within the [FRS 2022-23 documentation](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252#!/documentation) provides us with the necessary information: what are the available identifiers and how to use them depending on which datasets we want to merge.
+
+In our case, we will use the SERNUM, BENUNIT and PERSON variables to merge the two datasets: frs_adult2223_short and frs_pension2223_short. Sernum represents the unique serial number of the household, Benunit represents the identifier for the benefit unit (family) in the household, and PERSON represents the identifier for the individual. These variables are available in the two datasets we want to merge.
+
+## Merging data in R
+
+There are several types of data merge in R (inner join, left join, right join, full outer join and cross join). So, when merging two datasets using three key variables, the number of observations in the merged dataset depends on the type of merge and how the key variables will match across the two datasets. For successful merge, the key variables must match exactly between the two datasets. Otherwise, observations will not match. Also, since the merge is carried out based on combinations of the three key variables, if two observations match based on one or two of the keys, they will not be merged.
+
+In this example, we will use inner merge. So, we expect that the number of observations in the merged dataset will be equal to the number of observations in the smaller dataset that have all three key variables in the larger dataset. The exact number of observations in the merged dataset depends on how many of the three key variables match between the two datasets.
+
+The two variables we are focusing on: SEXf, which measures gender is in frs_adult2223_short, and PENTYPE, which measures Pension Type is in frs_pension2223_short.
+
+To merge frs_adult2223_short and frs_pension2223_short datasets, we use the following code (we will name the new data merged_data):
+
+```{r}
+merged_data <- merge(frs_adult2223_short,frs_pension2223_short, by = c("SERNUM", "BENUNIT", "PERSON"))   # Specify which datasets to merge and which columns to use for merging
+```
+
+**Note**: By default, if you do not specify the parameter ‘all’, the `merge` function carry out an inner join, which keeps only the rows that have matching values in all three key columns in both datasets.
+
+::: panel-tabset
+## Questions
+
+1.  How many observations in the new merged_data dataset?
+2.  How many variables in the new merged_data dataset?
+3.  Did you expect that outcome?
+
+## Answers
+
+1.  There are 15233 observations in the new merged_data as in frs_pension2223_short dataset.
+2.  There are 13 variables in the new merged_data including the four created factors, which is the total number of variables in both frs_adult2223_short and frs_pension2223_short datasets.
+3.  This outcome is expected because the new merged data will include all the matched observations (rows) based on the total number of unique key combinations in both datasets. In this case, the three unique keys we used from both datasets SERNUM, BENUNIT and PERSON matched 15233 observations between the two datasets frs_adult2223_short and frs_pension2223_short, which are all the observations in frs_pension2223_short dataset (the smaller dataset). Also, the number of variables in the new merged_data (13 variables) represents the total number of variables in frs_adult2223_short and frs_pension2223_short datasets.
+
+```{r}
+dim(merged_data)              # Get the number of observations and variables in the new merged_data dataset
+```
+
+```{r}
+names(merged_data)            #Get the names of variables in the new merged_data dataset
+```
+:::
+
+Before we assess the association between PENTYPEf and SEXf, let's check the frequencies of the two variables after merging the two datasets frs_adult2223_short and frs_pension2223_short.
+
+```{r}
+table(merged_data$SEXf)       # Frequency tables of gender SEXf after merging frs_adult2223_short and frs_pension2223_short 
+```
+
+```{r}
+table(merged_data$PENTYPEf)    # Frequency tables of pension type PENTYPEf after the merge
+```
+
+To assess the association between pension type PENTYPEf and gender SEXf (how pension type varies by gender), we use the following code:
+
+```{r}
+table(merged_data$PENTYPEf,merged_data$SEXf)     # How pension type varies by gender
+```
+
+::: panel-tabset
+## Questions
+
+-   Which type of pension was the least common for men and women?
+
+## Answers
+
+-   ‘Share of employee or personal pension from ex-spouse/partner’ was the least common pension type for men. ‘Income from a trust or covenant’ was the least common pension type for women.
+:::
+
+# Applying the weight
+
+Now, we will apply the `svytable()` function to create **weighted frequencies and percentages** for the variable PENTYPEf. We will then compare the results with the **unweighted** analyses.
+
+**PENTYPEf (weighted frequency table)**
+
+1.  First, we install the survey package and load it into the R session.
+
+```{r}
+ library(survey)          # Load it into R session
+```
+
+2.  Then, we declare the weight GROSS4 using svydesign()
+
+```{r}
+merged_data_design<-svydesign(data = merged_data, id = ~1, nest = TRUE,weights = merged_data$GROSS4)    # Using the svydesign() function to declare the weight
+```
+
+3.  To create the **weighted frequency table** for the PENTYPEf variable, use:
+
+```{r}
+svytable(~PENTYPEf,merged_data_design)    # Creating weighted frequency table using svytable()
+```
+
+4.  We can also run **weighted percentages** for the PENTYPEf variable using `prop.table(svytable())` and round the results using `round()` function:
+
+```{r}
+round(prop.table(svytable(~PENTYPEf,merged_data_design)),4)*100     # Creating weighted percentages using prop.table(svytable()) and round the results to four digits using round() function
+```
+
+5.  Now we run **unweighted frequencies and percentages** for the PENTYPEf variable to compare with the weighted frequencies and percentages:
+
+```{r}
+table(merged_data$PENTYPEf)          # Creating unweighted frequency table 
+```
+
+```{r}
+round(prop.table(table(merged_data$PENTYPEf, useNA = "ifany")) ,4)*100    #Creating unweighted percentages using prop.table() and round the results to four digits using round() functions
+```
+
+::: panel-tabset
+## Questions
+
+1.  Do the frequencies change when the weight is applied?
+2.  Are there differences between the percentages of PENTYPEf for the weighted and unweighted analyses?
+
+## Answers
+
+1.  Yes, the frequencies change substantially; the frequencies are much higher when the weight is applied. The large change is because the weights in the FRS sum to known population totals, which helps population totals to be estimated easily.
+
+The weights in the FRS also ensure that estimates reflect the sample design so that cases with a lower probability of selection will receive a higher weight to compensate for differential non-response among different subgroups in the population, and as such should help guard against potential non-response bias.
+
+2.  We summarise the weighed and unweighted percentages of PENTYPEf in the table below to make the comparison easier:
+
+| **PENTYPEf**                                                 | **Weighted (%)** | **Unweighted (%)** |
+|-----------------------------------------|----------------|----------------|
+| Employee pension - occupational, workplace, group personal   | 73.37            | 73.24              |
+| Individual personal pension                                  | 18.32            | 18.68              |
+| Survivor‹s pension (workplace or individual personal pension | 5.94             | 5.78               |
+| Income from an annuity ’ not purchased with pension funds    | 1.33             | 1.39               |
+| Income from a trust or covenant                              | 0.42             | 0.35               |
+| Share of employee or personal pension from ex-spouse/partner | 0.62             | 0.58               |
+
+: {.striped .hover}
+
+You can see that there are very small differences between the percentages of PENTYPEf for the weighted and unweighted analyses. However, that is not always the case. You should always apply weights when you conduct data analysis.
+:::
+
+**Your turn!**
+
+Carry out a weighted and unweighted analysis to assess the frequencies and percentages of the gender variable in the merged_data (use the variable: SEXf).
+
+**Outcome!**
+
+```{r}
+svytable(~SEXf,merged_data_design)    # Creating weighted frequencies for SEXf using svytable()
+```
+
+```{r}
+round(prop.table(svytable(~SEXf,merged_data_design)),4)*100       # Creating weighted percentages for SEXf using prop.table(svytable()) and round the results to four digits using round() function
+```
+
+```{r}
+table(merged_data$SEXf)          # Creating unweighted frequency table for SEXf
+```
+
+```{r}
+round(prop.table(table(merged_data$SEXf, useNA = "ifany")) ,4)*100    # Creating unweighted percentages using prop.table() and round the results to four digits using round() functions
+```
+
+We summarise the weighed and unweighted percentages of SEXf in the table below to make the comparison easier:
+
+| **SEXf** | **Weighted (%)** | **Unweighted (%)** |
+|----------|------------------|--------------------|
+| Male     | 53.16            | 54.12              |
+| Female   | 46.84            | 45.88              |
+
+: {.striped .hover}
+
+There are noticeable changes in the frequencies of SEXf when the weight is applied (they are much higher). But the differences between the percentages for the weighted and unweighted analysis are small.

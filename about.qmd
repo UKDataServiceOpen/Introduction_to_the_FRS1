@@ -1,0 +1,23 @@
+---
+title: "About"
+---
+
+These practical exercises are part of the ‘Getting started with the Family Resources Survey’ online module.
+
+In the exercises, we use data from the Family Resources Survey (FRS), 2022-2023 financial year to:
+
+-   Get familiar with the datasets.
+
+-   Explore the association between variables available in different FRS datasets.
+
+-   Assess the effect of survey weights on the results.
+
+The exercises are divided into two section:
+
+1.  The Hierarchical and Flat File Datasets.
+
+2.  Merging Data and Applying Weights.
+
+They are then divided into sub-sections based on the the statistical software used (R and SPSS).
+
+Questions and answers are included to assess understanding of the results.

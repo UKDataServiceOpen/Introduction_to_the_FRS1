@@ -1,0 +1,13 @@
+---
+title: "Introduction to the Family Resources Survey: R and SPSS Practical Exercises"
+author: "UK Data Service"
+published: "April 2025"
+---
+
+These practical exercises are part of the ‘Getting started with the Family Resources Survey’ online module.
+
+In the exercises, we explore data from the Family Resources Survey (FRS), 2022-2023 financial year to get familiar with the datasets. We also merge data to examine the association between variables available in different FRS datasets and evaluate how survey weights affect results.
+
+The exercises are created using R and SPSS.
+
+Questions and answers are included to help you check your understanding of the results.

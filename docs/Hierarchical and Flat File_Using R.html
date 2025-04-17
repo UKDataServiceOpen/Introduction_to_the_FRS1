@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Exercise 1 : Using R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #742082;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #742082;
+background: white;
+      }
+</style>
+
+
+<link rel="stylesheet" href="ukds.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Hierarchical and Flat File_Using R.html">The Hierarchical and Flat File Datasets</a></li><li class="breadcrumb-item"><a href="./Hierarchical and Flat File_Using R.html">Exercise 1 : Using R</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Hierarchical and Flat File_Using R.html">The Hierarchical and Flat File Datasets</a></li><li class="breadcrumb-item"><a href="./Hierarchical and Flat File_Using R.html">Exercise 1 : Using R</a></li></ol></nav>
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Exercise 1 : Using R</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./pics/UKDS_Logos_Col_Grey_300dpi.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">The Hierarchical and Flat File Datasets</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Hierarchical and Flat File_Using R.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Exercise 1 : Using R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Hierarchical and Flat File_Using SPSS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercise 1 : Using SPSS</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Merging Data and Applying Weights</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Merging Data and Applying Weights_Using R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercise 2 : Using R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Merging Data and Applying Weights_Using SPSS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercise 2 : Using SPSS</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting started</a>
+  <ul class="collapse">
+  <li><a href="#the-dataset" id="toc-the-dataset" class="nav-link" data-scroll-target="#the-dataset">1. The dataset</a></li>
+  <li><a href="#setting-up-r" id="toc-setting-up-r" class="nav-link" data-scroll-target="#setting-up-r">2. Setting up R</a>
+  <ul class="collapse">
+  <li><a href="#loading-the-r-packages" id="toc-loading-the-r-packages" class="nav-link" data-scroll-target="#loading-the-r-packages">Loading the R packages</a></li>
+  <li><a href="#setting-up-the-working-directory" id="toc-setting-up-the-working-directory" class="nav-link" data-scroll-target="#setting-up-the-working-directory">Setting up the working directory</a></li>
+  <li><a href="#importing-reading-data-into-r" id="toc-importing-reading-data-into-r" class="nav-link" data-scroll-target="#importing-reading-data-into-r">Importing (reading) data into R</a></li>
+  <li><a href="#opening-the-four-frs-tables-in-spss-format-in-r" id="toc-opening-the-four-frs-tables-in-spss-format-in-r" class="nav-link" data-scroll-target="#opening-the-four-frs-tables-in-spss-format-in-r">Opening the four FRS tables in SPSS format in R</a></li>
+  </ul></li>
+  <li><a href="#preparing-the-datasets" id="toc-preparing-the-datasets" class="nav-link" data-scroll-target="#preparing-the-datasets">3. Preparing the datasets</a></li>
+  <li><a href="#the-variables" id="toc-the-variables" class="nav-link" data-scroll-target="#the-variables">4. The variables</a></li>
+  </ul></li>
+  <li><a href="#the-hierarchical-tables" id="toc-the-hierarchical-tables" class="nav-link" data-scroll-target="#the-hierarchical-tables">The hierarchical tables</a>
+  <ul class="collapse">
+  <li><a href="#explore-the-datasets" id="toc-explore-the-datasets" class="nav-link" data-scroll-target="#explore-the-datasets">Explore the datasets</a></li>
+  <li><a href="#descriptive-analysis" id="toc-descriptive-analysis" class="nav-link" data-scroll-target="#descriptive-analysis">Descriptive analysis</a>
+  <ul class="collapse">
+  <li><a href="#examining-variables" id="toc-examining-variables" class="nav-link" data-scroll-target="#examining-variables">Examining variables</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#the-flat-file" id="toc-the-flat-file" class="nav-link" data-scroll-target="#the-flat-file">The Flat File</a>
+  <ul class="collapse">
+  <li><a href="#explore-the-datasets-1" id="toc-explore-the-datasets-1" class="nav-link" data-scroll-target="#explore-the-datasets-1">Explore the datasets</a></li>
+  <li><a href="#descriptive-analysis-1" id="toc-descriptive-analysis-1" class="nav-link" data-scroll-target="#descriptive-analysis-1">Descriptive analysis</a>
+  <ul class="collapse">
+  <li><a href="#examining-variables-1" id="toc-examining-variables-1" class="nav-link" data-scroll-target="#examining-variables-1">Examining variables</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>In this exercise, we use data from the Family Resources Survey (FRS), 2022-2023 financial year to get familiar with the hierarchical and flat file datasets using R.</p>
+<section id="getting-started" class="level1">
+<h1>Getting started</h1>
+<section id="the-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="the-dataset">1. The dataset</h2>
+<p>The dataset we will be using in this exercise is the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252">Family Resources Survey, 2022-2023</a>. These data are <a href="https://www.ukdataservice.ac.uk/get-data/data-access-policy">safeguarded</a>. You can download them from the UK Data Service after <a href="https://ukdataservice.ac.uk/help/registration/registration-login-faqs/">registration</a>.</p>
+<p>To get the Family Resources Survey (FRS), 2022-2023 dataset, go to the data <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252">catalogue page</a>, login to your account (create an account if you do not already have one), download and save the SPSS version, which we will use in this exercise.</p>
+<p>Create a new folder to save the downloaded data and analysis work in appropriate location on your machine and give that folder a name.</p>
+<p>The exercise below assumes that the dataset has been saved in a new folder named UKDS on your Desktop (Windows computers). The path would typically be <code>C:\\Users\\YOUR_USER_NAME\\Desktop\\UKDS</code>. You can change it to the location that best suits you.</p>
+<p>Remember to adjust the code below to match the location of the data on your machine.</p>
+<p>The FRS is a hierarchical dataset provided every year in multiple data files (known as ‘tables’ in the FRS language). The number of these tables varies, depending on the year of the survey. The 2022-2023 FRS has 25 tables. In this exercise, we will use the two general-purpose tables “adult.sav” and “benunit.sav” as well as the specialised table “pension.sav” and the FRS flat file “frs2223.sav” to:</p>
+<ul>
+<li>Make a subset of the datasets.</li>
+<li>Explore the variables in each dataset by conducting descriptive analysis (frequency tables, summary statistics and cross tabulation).</li>
+<li>Assess the results and convert the categorical variables into factor variables if needed.</li>
+</ul>
+</section>
+<section id="setting-up-r" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-r">2. Setting up R</h2>
+<p>We start with loading all R packages we will be using for this exercise, set the working directory, and import (read) the data into R.</p>
+<section id="loading-the-r-packages" class="level3">
+<h3 class="anchored" data-anchor-id="loading-the-r-packages">Loading the R packages</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)      <span class="co"># Data manipulation functions</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Hmisc)      <span class="co"># Extra statistical functions </span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  <span class="co"># Data manipulation and visualization</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)    <span class="co"># Data cleaning and summary table</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)      <span class="co"># Tables in Quarto </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="setting-up-the-working-directory" class="level3">
+<h3 class="anchored" data-anchor-id="setting-up-the-working-directory">Setting up the working directory</h3>
+<p><strong>Note</strong>: Adjust the <code>setwd()</code> command below to match the location of the data on your computer</p>
+<p>setwd(“C:_Username”) # Setting up the working directory</p>
+<p>getwd() # getting the working directory</p>
+</section>
+<section id="importing-reading-data-into-r" class="level3">
+<h3 class="anchored" data-anchor-id="importing-reading-data-into-r">Importing (reading) data into R</h3>
+<p>There are several packages for importing data with different formats into R. The most used packages are <code>haven</code>, <code>foreign</code>, and <code>readr</code>.</p>
+<p>In this exercise, we use the <code>haven</code> package to import the four FRS tables that we will work with as SPSS files.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)                    <span class="co"># load the package haven </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Note</strong>: If the package <code>haven</code> is already installed in the R environment, you just need to recall it from the R library using the function <code>library(haven)</code>. If not, you can install it using: <code>install.packages("haven")</code>.</p>
+<p>For instructions and information about some R packages for importing data with different format into R, see our <a href="https://trainingmodules.ukdataservice.ac.uk/crime/#/lessons/eNqUS0tUWq1sC5DMKiLpxGaTuE5f-sj6">Data Skills Module: Exploring crime surveys with R</a>.</p>
+</section>
+<section id="opening-the-four-frs-tables-in-spss-format-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="opening-the-four-frs-tables-in-spss-format-in-r">Opening the four FRS tables in SPSS format in R</h3>
+<p>Next, we assign a name to the data we want to import into R. We will name the four FRS tables that we want to import to R as frs_adult2223, frs_benunit2223, frs_pension2223 and frs_frs2223.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># assign names to the data we want to import into R</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>frs_adult2223 <span class="ot">&lt;-</span> <span class="fu">read_sav</span> (<span class="st">"UKDA-9252-spss/spss/spss28/adult.sav"</span>) </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>frs_benunit2223 <span class="ot">&lt;-</span> <span class="fu">read_sav</span> (<span class="st">"UKDA-9252-spss/spss/spss28/benunit.sav"</span>) </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>frs_pension2223 <span class="ot">&lt;-</span> <span class="fu">read_sav</span> (<span class="st">"UKDA-9252-spss/spss/spss28/pension.sav"</span>) </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>frs_frs2223 <span class="ot">&lt;-</span> <span class="fu">read_sav</span> (<span class="st">"UKDA-9252-spss/spss/spss28/frs2223.sav"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="preparing-the-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="preparing-the-datasets">3. Preparing the datasets</h2>
+<p>After loading the FRS tables into R, we begin with exploring the frs_adult2223, frs_benunit222, frs_pension2223 and frs_frs2223 tables.</p>
+<p>But first, we will have a quick look at the number of observations and the number of the variables in these tables using the <code>dim()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(frs_adult2223)          <span class="co">#Gives the number of rows (observations) and columns (variables) in the frs_adult2223 file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 42480   587</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(frs_benunit2223)        <span class="co">#Gives the number of rows (observations) and columns (variables) in the frs_benunit2223 file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 28629   276</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(frs_pension2223)        <span class="co">#Gives the number of rows (observations) and columns (variables) in the frs_pension2223 file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15233    50</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(frs_frs2223) <span class="co">#Gives the number of rows (observations) and columns (variables) in the frs_frs2223 file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 28629  7070</code></pre>
+</div>
+</div>
+<p>You can see that the frs_frs2223 table has the largest number of variables (7,070 variables). The frs_adult2223 table has 587 variables, the frs_benunit222 table has 276 variables, and the frs_pension2223 table has 50 variables.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Questions</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Answers</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ol type="1">
+<li>Why is the number of the variables in the frs_pension2223 table the smallest?</li>
+<li>Which table has the smallest number of observations?</li>
+<li>Which tables have the same numbers of observations? Why?</li>
+</ol>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<ol type="1">
+<li>These tables have different units of analysis. The frs_adult2223 table includes data at the individual level, the frs_benunit2223 and the frs_frs2223 tables have data at the benefit unit (family) level. The frs_pension2223 table is a specialised data that can be analysed at person, benefit unit and household level. It is a subset of data representing participants who are receiving income from a pension (see the <a href="https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252#!/documentation">FRS documentation</a> for the definition of each level). Therefore, the frs_pension2223 table has the smallest number of variables.</li>
+<li>The frs_pension2223 table has the smallest number of observations (15233 observations).</li>
+<li>The frs_frs2223 and frs_benunit2223 have the same numbers of observations (28629). Because both tables include data at benefit unit level.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="the-variables" class="level2">
+<h2 class="anchored" data-anchor-id="the-variables">4. The variables</h2>
+<p>We will only be using a few variables from each table in this exercise. So, we will create subsets data from these four tables, containing the variables we will use in this exercise. The tables below shows the variables (names and labels) that we will select from each FRS table.</p>
+<table class="table-striped table-hover table">
+<colgroup>
+<col style="width: 44%">
+<col style="width: 55%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Variable name</strong></th>
+<th><strong>Variable label</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Variables from the frs_adult2223 table</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>SERNUM</td>
+<td>Sernum</td>
+</tr>
+<tr class="odd">
+<td>BENUNIT</td>
+<td>Benefit Unit</td>
+</tr>
+<tr class="even">
+<td>PERSON</td>
+<td>Person</td>
+</tr>
+<tr class="odd">
+<td>HEALTH1</td>
+<td>Whether has a long standing illness</td>
+</tr>
+<tr class="even">
+<td>SEX</td>
+<td>Sex</td>
+</tr>
+<tr class="odd">
+<td>IAGEGR4</td>
+<td>Individual Adult 5 Year Age Bands - Anon</td>
+</tr>
+<tr class="even">
+<td>GROSS4</td>
+<td>Grossing variable</td>
+</tr>
+<tr class="odd">
+<td><strong>Variables from the frs_benunit2223 table</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>SERNUM</td>
+<td>Sernum</td>
+</tr>
+<tr class="odd">
+<td>BENUNIT</td>
+<td>Benefit Unit</td>
+</tr>
+<tr class="even">
+<td>famtypbu</td>
+<td>Family Type</td>
+</tr>
+<tr class="odd">
+<td><strong>Variables from the frs_pension2223 table</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>SERNUM</td>
+<td>Sernum</td>
+</tr>
+<tr class="odd">
+<td>BENUNIT</td>
+<td>Benefit Unit</td>
+</tr>
+<tr class="even">
+<td>PERSON</td>
+<td>Person</td>
+</tr>
+<tr class="odd">
+<td>PENPAY</td>
+<td>Amount of last payment from pension (continuous variable)</td>
+</tr>
+<tr class="even">
+<td>PENTYPE</td>
+<td>Pension Type</td>
+</tr>
+<tr class="odd">
+<td><strong>Variables from the frs_frs2223 table</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>SERNUM</td>
+<td>Sernum</td>
+</tr>
+<tr class="odd">
+<td>BENUNIT</td>
+<td>Benefit Unit</td>
+</tr>
+<tr class="even">
+<td>PERSON</td>
+<td>Person</td>
+</tr>
+<tr class="odd">
+<td>HEALTHHD</td>
+<td>Whether has a long standing illness</td>
+</tr>
+<tr class="even">
+<td>SEX</td>
+<td>Sex</td>
+</tr>
+<tr class="odd">
+<td>FAMTYPBU</td>
+<td>Family Type</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create subset datasets from the original data files  </span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#use a pipeline (the %&gt;% operator)  </span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#and the "select" function from the dplyr package </span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#the code below only selects the variables we are interested in</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># We will name the new datasets as frs_adult2223_short, frs_benunit2223_short, frs_pension2223, and frs_frs2223_short, respectively. </span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>frs_adult2223_short <span class="ot">&lt;-</span> frs_adult2223 <span class="sc">%&gt;%</span> <span class="fu">select</span> (SERNUM, BENUNIT, PERSON, GROSS4, HEALTH1, SEX, IAGEGR4) </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>frs_benunit2223_short <span class="ot">&lt;-</span> frs_benunit2223 <span class="sc">%&gt;%</span> <span class="fu">select</span> (SERNUM, BENUNIT, famtypbu) </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>frs_pension2223_short <span class="ot">&lt;-</span> frs_pension2223<span class="sc">%&gt;%</span> <span class="fu">select</span> (SERNUM, BENUNIT, PERSON, PENPAY, PENTYPE) </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>frs_frs2223_short <span class="ot">&lt;-</span> frs_frs2223<span class="sc">%&gt;%</span> <span class="fu">select</span> (SERNUM, BENUNIT, PERSONHD, HEALTHHD, SEXHD, FAMTYPBU) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="the-hierarchical-tables" class="level1">
+<h1>The hierarchical tables</h1>
+<section id="explore-the-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="explore-the-datasets">Explore the datasets</h2>
+<p>Let’s start by having a quick look at the three newly generated datasets frs_adult2223_short, frs_benunit222_short and frs_pension2223_short.</p>
+<p>We will start with the frs_adult2223_short dataset. Either inspect variables and cases in the data editor [run the code <code>View(dataframe)</code>] or use the code below to produce a summary of the variables in the dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(frs_adult2223_short)      <span class="co">#Gives the number of rows (observations) and columns (variables)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 42480     7</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(frs_adult2223_short)    <span class="co">#List variable names in their actual order in the dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "SERNUM"  "BENUNIT" "PERSON"  "GROSS4"  "HEALTH1" "SEX"     "IAGEGR4"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(frs_adult2223_short))     <span class="co">#Displays the first six lines of a dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  SERNUM BENUNIT PERSON GROSS4 HEALTH1 SEX IAGEGR4
+1      1       1      1    750       1   1       7
+2      1       1      2    750       2   2       7
+3      2       1      1    871       2   1       5
+4      2       2      2    871       2   1       4
+5      2       3      3    871       2   1       4
+6      3       1      1    710       2   1      10</code></pre>
+</div>
+</div>
+<p><strong>Note</strong>: You can use <code>tail(data.frame(frs_adult2223_short))</code> to display the last few rows of a dataset.</p>
+<p>Now, let’s also have a look at the frs_benunit2223_short dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(frs_benunit2223_short)    <span class="co">#Gives the number of rows (observations) and columns (variables)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 28629     3</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(frs_benunit2223_short)  <span class="co">#List variable names in their actual order in the dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "SERNUM"   "BENUNIT"  "famtypbu"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(frs_benunit2223_short))     <span class="co">#Displays the first six lines of a dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  SERNUM BENUNIT famtypbu
+1      1       1        3
+2      2       1        6
+3      2       2        6
+4      2       3        6
+5      3       1        3
+6      4       1        1</code></pre>
+</div>
+</div>
+<p>Let’s learn more about the variables.</p>
+<p><strong>Note</strong>: The  <code>haven</code>  R package facilitates the conversion of categorical data from SPSS or Stata into R. While it can preserve the original numeric values, it also contains attributes, which are special types of R objects with names that are accessible via the <code>attr()</code> function. In this context, each variable has two key attributes: a ‘label’, which is the description of the variable, and ‘labels’, which are the value labels.</p>
+<p>Furthermore, the <code>haven</code> R package allows for the conversion of these imported numeric variables into R factors. In this conversion, the factors are created with levels (i.e., categories) reflecting the value labels from SPSS or Stata.</p>
+<p>Let’s examine the variables’ description and value labels of HEALTH1, SEX and IAGEGR4 from frs_adult2223_short dataset, and the variables’ description and value labels of famtypbu from frs_benunit2223_short dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_adult2223_short<span class="sc">$</span>HEALTH1,<span class="st">"label"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Whether has a long standing illness</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_adult2223_short<span class="sc">$</span>HEALTH1,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Yes" "No" </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_adult2223_short<span class="sc">$</span>SEX,<span class="st">"label"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sex</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_adult2223_short<span class="sc">$</span>SEX,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Male"   "Female"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_adult2223_short<span class="sc">$</span>IAGEGR4,<span class="st">"label"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Individual Adult 5 Year Age Bands - Anon</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_adult2223_short<span class="sc">$</span>IAGEGR4,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Age 16 to 19"   "Age 20 to 24"   "Age 25 to 29"   "Age 30 to 34"  
+ [5] "Age 35 to 39"   "Age 40 to 44"   "Age 45 to 49"   "Age 50 to 54"  
+ [9] "Age 55 to 59"   "Age 60 to 64"   "Age 65 to 69"   "Age 70 to 74"  
+[13] "Age 75 or over"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_benunit2223_short<span class="sc">$</span>famtypbu,<span class="st">"label"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Family Type</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_benunit2223_short<span class="sc">$</span>famtypbu,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Any other category"      "Pensioner couple"       
+[3] "Pensioner single"        "Couple with children"   
+[5] "Couple without children" "Lone parent"            
+[7] "Single without children"</code></pre>
+</div>
+</div>
+<p><strong>Your turn!</strong></p>
+<p>Use the frs_pension2223_short dataset to get an idea about the variables.</p>
+<ol type="1">
+<li>List the names of the variables in frs_pension2223_short dataset. Use <code>names()</code> function.</li>
+<li>Return the six first rows in frs_pension2223_short dataset. Use <code>head()</code> function.</li>
+<li>Create labels and labels attributes for the variables PENPAY and PENTYPE. Use <code>cat(attr())</code> and <code>names(attr())</code> functions.</li>
+</ol>
+<p><strong>Outcome!</strong></p>
+<ol type="1">
+<li>Names of the variables in frs_pension2223_short dataset:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(frs_pension2223_short) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "SERNUM"  "BENUNIT" "PERSON"  "PENPAY"  "PENTYPE"</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>The six first rows in frs_pension2223_short dataset:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(frs_pension2223_short))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  SERNUM BENUNIT PERSON    PENPAY PENTYPE
+1     10       1      2  59.67000       1
+2     14       1      1 148.43836       1
+3     15       1      1 276.16438       1
+4     16       1      1  35.45490       1
+5     16       1      1 144.21534       1
+6     16       1      2  53.00745       1</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Labels and labels attributes for the variables PENPAY and PENTYPE:</li>
+</ol>
+<ul>
+<li>Label of the variable <strong>PENPAY</strong>:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_pension2223_short<span class="sc">$</span>PENPAY,<span class="st">"label"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Amount of last payment from pension</code></pre>
+</div>
+</div>
+<ul>
+<li>Label attribute of the variable <strong>PENPAY</strong>:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_pension2223_short<span class="sc">$</span>PENPAY,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+<ul>
+<li>Label of the variable <strong>PENTYPE</strong>:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_pension2223_short<span class="sc">$</span>PENTYPE,<span class="st">"label"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Pension Type</code></pre>
+</div>
+</div>
+<ul>
+<li>Label attribute for the variable <strong>PENTYPE</strong>:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_pension2223_short<span class="sc">$</span>PENTYPE,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Employee pension - occupational, workplace, group personal"  
+[2] "Individual personal pension"                                 
+[3] "Survivor‹s pension (workplace or individual personal pension"
+[4] "Income from an annuity ’ not purchased with pension funds"   
+[5] "Income from a trust or covenant"                             
+[6] "Share of employee or personal pension from ex-spouse/partner"</code></pre>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Questions</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Answers</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<ol type="1">
+<li>What is the value for ‘Amount of last pension payment’ of person 2 from benefit unit 1 with serial no. 16 in the frs_pension2223_short dataset?</li>
+<li>Why is the outcome of the ‘labels’ attribute of ‘PENPAY’ NULL?</li>
+</ol>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<ol type="1">
+<li>The value for ‘Amount of last pension payment’ of person 2 from benefit unit 1 with serial no. 16 in the frs_pension2223_short dataset is 53.00745.</li>
+<li>PENPAY is a continuous variable that measures ‘Amount of last payment from pension’; therefore, the outcome of ‘labels’ attribute of PENPAY is NULL.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="descriptive-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="descriptive-analysis">Descriptive analysis</h2>
+<section id="examining-variables" class="level3">
+<h3 class="anchored" data-anchor-id="examining-variables">Examining variables</h3>
+<p>Let’s now examine the frequency of the variables HEALTH1, SEX, and IAGEGR4 in the frs_adult2223_short dataset.</p>
+<p>We can use the <code>table()</code> function to create a frequency table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span> (frs_adult2223_short<span class="sc">$</span>HEALTH1)     <span class="co">#Create a frequency table for the variable HEALTH1 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1     2 
+18308 24172 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>SEX)          <span class="co">#Create a frequency table for the variable SEX</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1     2 
+20143 22337 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>IAGEGR4)      <span class="co">#Create a frequency table for the variable IAGEGR4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   4    5    6    7    8    9   10   11   12   13   14   15   16 
+ 587 1864 2506 3108 3341 3367 3002 3401 3763 3894 3751 3830 6066 </code></pre>
+</div>
+</div>
+<p>We can use the <code>as_factor()</code> function (included in the <code>haven</code> package) to convert the categorical variables HEALTH1, SEX, and IAGEGR4 into factor variables. The newly generated factor variables HEALTH1f, SEXf, and IAGEGR4f are equivalent to categorical variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>frs_adult2223_short<span class="sc">$</span>HEALTH1f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_adult2223_short<span class="sc">$</span>HEALTH1)      <span class="co">#Create a new factor variable HEALTH1f from the original variable HEALTH1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>frs_adult2223_short<span class="sc">$</span>SEXf<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_adult2223_short<span class="sc">$</span>SEX)            <span class="co"># Create a new factor variable SEXf from the original variable SEX     </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>frs_adult2223_short<span class="sc">$</span>IAGEGR4f<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_adult2223_short<span class="sc">$</span>IAGEGR4)    <span class="co"># Create a new factor variable IAGEGR4f from the original variable IAGEGR4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>HEALTH1f)       <span class="co"># Create a frequency table for the new factor variable HEALTH1f</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  Yes    No 
+18308 24172 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>SEXf)           <span class="co"># Create a frequency table for the new factor variable SEXf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  Male Female 
+ 20143  22337 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_adult2223_short<span class="sc">$</span>IAGEGR4f)       <span class="co"># Create a frequency table for the new factor variable IAGEGR4f</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  Age 16 to 19   Age 20 to 24   Age 25 to 29   Age 30 to 34   Age 35 to 39 
+           587           1864           2506           3108           3341 
+  Age 40 to 44   Age 45 to 49   Age 50 to 54   Age 55 to 59   Age 60 to 64 
+          3367           3002           3401           3763           3894 
+  Age 65 to 69   Age 70 to 74 Age 75 or over 
+          3751           3830           6066 </code></pre>
+</div>
+</div>
+<p>Let’s now examine the frequency of the variable famtypbu in the frs_ benunit2223_short dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span> (frs_benunit2223_short<span class="sc">$</span>famtypbu)  <span class="co"># Create a frequency table for the variable famtypbu  </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   1    2    3    4    5    6 
+4312 4787 4642 5057 1563 8268 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>frs_benunit2223_short<span class="sc">$</span>famtypbuf<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_benunit2223_short<span class="sc">$</span>famtypbu) <span class="co"># Create a new factor variable famtypbuf from the original variable famtypbu</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_benunit2223_short<span class="sc">$</span>famtypbuf)  <span class="co"># Create a frequency table for the new factor variable famtypbuf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Any other category        Pensioner couple        Pensioner single 
+                      0                    4312                    4787 
+   Couple with children Couple without children             Lone parent 
+                   4642                    5057                    1563 
+Single without children 
+                   8268 </code></pre>
+</div>
+</div>
+<p>The amount of last payment from pension PENPAY is a continuous variable. So, we will use <code>summary()</code> instead of <code>table()</code>. The <code>summary()</code> function provides a summary of the main statistics including the minimum and maximum values, the mean, the median and the quartiles. This function is useful for assessing and detecting extreme values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">summary</span>(frs_pension2223_short<span class="sc">$</span>PENPAY)      <span class="co">#Create a summary table for the variable PENPAY</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.      NA's 
+   0.0002   32.2192   88.1425  155.2260  211.2370 1562.5645       490 </code></pre>
+</div>
+</div>
+<p><strong>Your turn!</strong></p>
+<p>Use the frs_pension2223_short dataset to examine respondents’ pension type PENTYPE.</p>
+<ol type="1">
+<li>Create a frequency table to measure pension type PENTYPE. Use <code>table()</code> function</li>
+<li>Assess the results and decide if you need to convert PENTYPE into a factor variable. Use <code>as_factor</code> if needed.</li>
+</ol>
+<p><strong>Outcome!</strong></p>
+<ol type="1">
+<li>Frequency table of PENTYPE from the frs_ pension2223_short dataset:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span> (frs_pension2223_short<span class="sc">$</span>PENTYPE)       <span class="co"># Create a frequency table for the variable PENTYPE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1     2     3     4     5     6 
+11156  2845   880   211    53    88 </code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Converting PENTYPE into a factor variable PENTYPEf</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>frs_pension2223_short<span class="sc">$</span>PENTYPEf<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_pension2223_short<span class="sc">$</span>PENTYPE)    <span class="co"># Create a new factor variable PENTYPEf from the original variable 'PENTYPE’</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li>Frequency table of the new factor variable PENTYPEf</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_pension2223_short<span class="sc">$</span>PENTYPEf)       <span class="co"># Create a frequency table for the new factor variable PENTYPEf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  Employee pension - occupational, workplace, group personal 
+                                                       11156 
+                                 Individual personal pension 
+                                                        2845 
+Survivor‹s pension (workplace or individual personal pension 
+                                                         880 
+   Income from an annuity ’ not purchased with pension funds 
+                                                         211 
+                             Income from a trust or covenant 
+                                                          53 
+Share of employee or personal pension from ex-spouse/partner 
+                                                          88 </code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="the-flat-file" class="level1">
+<h1>The Flat File</h1>
+<section id="explore-the-datasets-1" class="level2">
+<h2 class="anchored" data-anchor-id="explore-the-datasets-1">Explore the datasets</h2>
+<p>Let’s have a look at frs_frs2223_short dataset, the short version we have created from the flat file frs_frs2223.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(frs_frs2223_short)        <span class="co">#Gives the number of rows (observations) and columns (variables)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 28629     6</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(frs_frs2223_short)      <span class="co">#List variable names in their actual order in the dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "SERNUM"   "BENUNIT"  "PERSONHD" "HEALTHHD" "SEXHD"    "FAMTYPBU"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(frs_frs2223_short))       <span class="co">#Displays the first six lines of a dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  SERNUM BENUNIT PERSONHD HEALTHHD SEXHD FAMTYPBU
+1      1       1        1        1     1        3
+2      2       1        1        2     1        6
+3      2       2        2        2     1        6
+4      2       3        3        2     1        6
+5      3       1        1        2     1        3
+6      4       1        1        2     1        1</code></pre>
+</div>
+</div>
+<p>Now, let’s learn more about the available variables.</p>
+<p>We will use the <code>attr()</code> function to get variables attributes ‘label’, which is the descriptions of the variable, and ‘labels’, which are the value labels.</p>
+<p>Let’s examine the variables’ descriptions and value labels of HEALTHHD and SEXHD from frs_frs2223_short dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_frs2223_short<span class="sc">$</span>HEALTHHD,<span class="st">"label"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Whether has a long standing illness</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_frs2223_short<span class="sc">$</span>HEALTHHD,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Yes" "No" </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_frs2223_short<span class="sc">$</span>SEXHD,<span class="st">"label"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sex</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_frs2223_short<span class="sc">$</span>SEXHD,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+<p><strong>Note</strong>: the outcome of the ‘labels’ of SEXHD is <strong>Null</strong> because the value labels of SEXHD in the original dataset is entered as None.&nbsp;</p>
+<p>What about variable’s description and value label of FAMTYPBU from frs_frs2223_short dataset?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">attr</span>(frs_frs2223_short<span class="sc">$</span>FAMTYPBU,<span class="st">"label"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Family Type</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attr</span>(frs_frs2223_short<span class="sc">$</span>FAMTYPBU,<span class="st">"labels"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Any other category"      "Pensioner couple"       
+[3] "Pensioner single"        "Couple with children"   
+[5] "Couple without children" "Lone parent"            
+[7] "Single without children"</code></pre>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Questions</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Answers</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<p>Compare the descriptions and value labels of the variables that measure long standing illness ‘HEALTH1’ and Sex ‘SEX’ (in frs_adult2223_short datasets) and Family type ‘famtypbu’ (in the frs_benunit2223_short dataset) with those that measures the same variables in frs_frs2223_short dataset (HEALTHHD, SEXHD and FAMTYPBU, respectively).</p>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<ol type="a">
+<li>Long standing illness in frs_adult2223_short dataset: both the descriptions and value labels are same as in the flat file. (b) Sex in frs_adult2223_short dataset: only variable descriptions is same as in the flat file. (c) Family type in the frs_benunit2223_short dataset: both the description and value labels are same as in the flat file.</li>
+</ol>
+<p>However, the variables’ names in the flat file are slightly different than those in the hierarchical files.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="descriptive-analysis-1" class="level2">
+<h2 class="anchored" data-anchor-id="descriptive-analysis-1">Descriptive analysis</h2>
+<section id="examining-variables-1" class="level3">
+<h3 class="anchored" data-anchor-id="examining-variables-1">Examining variables</h3>
+<p>Let’s now examine the frequency of the variables HEALTHHD, SEXHD and FAMTYPBU in frs_frs2223_short dataset.</p>
+<p>We will use the <code>table()</code> function to create frequency tables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_frs2223_short<span class="sc">$</span>HEALTHHD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1     2 
+12781 15848 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_frs2223_short<span class="sc">$</span>SEXHD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1     2 
+16225 12404 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_frs2223_short<span class="sc">$</span>FAMTYPBU)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   1    2    3    4    5    6 
+4312 4787 4642 5057 1563 8268 </code></pre>
+</div>
+</div>
+<p>To understand the results, we will use the <code>as_factor()</code> function to convert the categorical variables HEALTHHD, SEXHD, and FAMTYPBU into the factor variables HEALTHHDf, SEXHDf, and FAMTYPBUf.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>frs_frs2223_short<span class="sc">$</span>HEALTHHDf<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_frs2223_short<span class="sc">$</span>HEALTHHD)     <span class="co"># Create a new factor variable HEALTHHDf from the original variable HEALTHHD</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>frs_frs2223_short<span class="sc">$</span>SEXHDf<span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_frs2223_short<span class="sc">$</span>SEXHD)         <span class="co"># Create a new factor variable SEXHDf from the original variable SEXHD</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>frs_frs2223_short<span class="sc">$</span> FAMTYPBUf <span class="ot">&lt;-</span><span class="fu">as_factor</span>(frs_frs2223_short<span class="sc">$</span>FAMTYPBU)  <span class="co"># Create a new factor variable FAMTYPBUf from the original variable FAMTYPBU </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_frs2223_short<span class="sc">$</span>HEALTHHDf)            <span class="co"># Create a frequency table for the new factor variable HEALTHHDf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  Yes    No 
+12781 15848 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_frs2223_short<span class="sc">$</span>SEXHDf)               <span class="co"># Create a frequency table for the new factor variable SEXHDf      </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1     2 
+16225 12404 </code></pre>
+</div>
+</div>
+<p><strong>Note</strong>: the values of some variables in the flat file table (such as SEXHD) are not labeled, even though they are labeled in the hierarchical tables. Therefore, the value labels in the frequency table of the new factor variable SEXHDf haven’t changed after converting the original variable SEXHD into a factor variable, as the value of SEXHD in the original dataset is entered as ‘None’.</p>
+<p>What about the frequency table of the new factor variable FAMTYPBUf from frs_frs2223_short dataset?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(frs_frs2223_short<span class="sc">$</span>FAMTYPBUf)            <span class="co"># Create a frequency table for the new factor variable FAMTYPBUf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Any other category        Pensioner couple        Pensioner single 
+                      0                    4312                    4787 
+   Couple with children Couple without children             Lone parent 
+                   4642                    5057                    1563 
+Single without children 
+                   8268 </code></pre>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Questions</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Answers</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<ol type="1">
+<li>How many observations are lone parent?</li>
+<li>How many observations are not long standing illness?</li>
+<li>What do you notice about the frequencies of FAMTYPBUf in frs_frs2223_short dataset and the frequencies of the same variable famtypbuf in frs_benunit2223_short dataset?</li>
+</ol>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<ol type="1">
+<li>There are 1563 lone parent.</li>
+<li>There are 15854 persons responded didn’t have long standing illness.</li>
+<li>The frequencies of the variables FAMTYPBUf in frs_frs2223_short dataset and famtypbuf in frs_benunit2223_short dataset are exactly the same as expected.</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

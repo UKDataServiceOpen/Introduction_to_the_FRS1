@@ -1,0 +1,539 @@
+---
+title: "Exercise 1 : Using R"
+format: html
+editor: visual
+mainfont: "Arial"
+title-block-banner: "white"
+title-block-banner-color: "#742082"
+toc: true
+smooth-scroll: true
+toc-location: right
+css: ukds.css
+background-size: "15%"
+background-position: "left top"
+background-repeat: "no-repeat"
+padding-left: "50px"
+padding-top: "100px"
+background-origin: "content-box"
+text-align: left
+margin-top: "30px"
+margin-bottom: "30px"
+title-color: "#742082"
+h1-color: "#742082"
+h2-color: "#742082"
+h3-color: "#742082"
+h4-color: "#742082"
+---
+
+In this exercise, we use data from the Family Resources Survey (FRS), 2022-2023 financial year to get familiar with the hierarchical and flat file datasets using R.
+
+# Getting started
+
+## 1. The dataset
+
+The dataset we will be using in this exercise is the [Family Resources Survey, 2022-2023](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252). These data are [safeguarded](https://www.ukdataservice.ac.uk/get-data/data-access-policy). You can download them from the UK Data Service after [registration](https://ukdataservice.ac.uk/help/registration/registration-login-faqs/).
+
+To get the Family Resources Survey (FRS), 2022-2023 dataset, go to the data [catalogue page](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252), login to your account (create an account if you do not already have one), download and save the SPSS version, which we will use in this exercise.
+
+Create a new folder to save the downloaded data and analysis work in appropriate location on your machine and give that folder a name.
+
+The exercise below assumes that the dataset has been saved in a new folder named UKDS on your Desktop (Windows computers). The path would typically be `C:\\Users\\YOUR_USER_NAME\\Desktop\\UKDS`. You can change it to the location that best suits you.
+
+Remember to adjust the code below to match the location of the data on your machine.
+
+The FRS is a hierarchical dataset provided every year in multiple data files (known as ‘tables’ in the FRS language). The number of these tables varies, depending on the year of the survey. The 2022-2023 FRS has 25 tables. In this exercise, we will use the two general-purpose tables “adult.sav” and “benunit.sav” as well as the specialised table “pension.sav” and the FRS flat file “frs2223.sav” to:
+
+-   Make a subset of the datasets.
+-   Explore the variables in each dataset by conducting descriptive analysis (frequency tables, summary statistics and cross tabulation).
+-   Assess the results and convert the categorical variables into factor variables if needed.
+
+## 2. Setting up R
+
+We start with loading all R packages we will be using for this exercise, set the working directory, and import (read) the data into R.
+
+### Loading the R packages
+
+```{r}
+library(dplyr)      # Data manipulation functions
+library(Hmisc)      # Extra statistical functions 
+library(tidyverse)  # Data manipulation and visualization
+library(janitor)    # Data cleaning and summary table
+library(knitr)      # Tables in Quarto 
+```
+
+### Setting up the working directory
+
+**Note**: Adjust the `setwd()` command below to match the location of the data on your computer
+
+setwd("C:\Users\Your\_Username") \# Setting up the working directory
+
+getwd() \# getting the working directory
+
+### Importing (reading) data into R
+
+There are several packages for importing data with different formats into R. The most used packages are `haven`, `foreign`, and `readr`.
+
+In this exercise, we use the `haven` package to import the four FRS tables that we will work with as SPSS files.
+
+```{r}
+library(haven) 				      # load the package haven 
+```
+
+**Note**: If the package `haven` is already installed in the R environment, you just need to recall it from the R library using the function `library(haven)`. If not, you can install it using: `install.packages("haven")`.
+
+For instructions and information about some R packages for importing data with different format into R, see our [Data Skills Module: Exploring crime surveys with R](https://trainingmodules.ukdataservice.ac.uk/crime/#/lessons/eNqUS0tUWq1sC5DMKiLpxGaTuE5f-sj6).
+
+### Opening the four FRS tables in SPSS format in R
+
+Next, we assign a name to the data we want to import into R. We will name the four FRS tables that we want to import to R as frs_adult2223, frs_benunit2223, frs_pension2223 and frs_frs2223.
+
+```{r}
+# assign names to the data we want to import into R
+
+frs_adult2223 <- read_sav ("UKDA-9252-spss/spss/spss28/adult.sav") 
+frs_benunit2223 <- read_sav ("UKDA-9252-spss/spss/spss28/benunit.sav") 
+frs_pension2223 <- read_sav ("UKDA-9252-spss/spss/spss28/pension.sav") 
+frs_frs2223 <- read_sav ("UKDA-9252-spss/spss/spss28/frs2223.sav") 
+```
+
+## 3. Preparing the datasets
+
+After loading the FRS tables into R, we begin with exploring the frs_adult2223, frs_benunit222, frs_pension2223 and frs_frs2223 tables.
+
+But first, we will have a quick look at the number of observations and the number of the variables in these tables using the `dim()` function:
+
+```{r}
+dim(frs_adult2223)          #Gives the number of rows (observations) and columns (variables) in the frs_adult2223 file
+```
+
+```{r}
+dim(frs_benunit2223)        #Gives the number of rows (observations) and columns (variables) in the frs_benunit2223 file
+```
+
+```{r}
+dim(frs_pension2223)        #Gives the number of rows (observations) and columns (variables) in the frs_pension2223 file
+```
+
+```{r}
+dim(frs_frs2223) #Gives the number of rows (observations) and columns (variables) in the frs_frs2223 file
+```
+
+You can see that the frs_frs2223 table has the largest number of variables (7,070 variables). The frs_adult2223 table has 587 variables, the frs_benunit222 table has 276 variables, and the frs_pension2223 table has 50 variables.
+
+::: panel-tabset
+## Questions
+
+1.  Why is the number of the variables in the frs_pension2223 table the smallest?
+2.  Which table has the smallest number of observations?
+3.  Which tables have the same numbers of observations? Why?
+
+## Answers
+
+1.  These tables have different units of analysis. The frs_adult2223 table includes data at the individual level, the frs_benunit2223 and the frs_frs2223 tables have data at the benefit unit (family) level. The frs_pension2223 table is a specialised data that can be analysed at person, benefit unit and household level. It is a subset of data representing participants who are receiving income from a pension (see the [FRS documentation](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252#!/documentation) for the definition of each level). Therefore, the frs_pension2223 table has the smallest number of variables.
+2.  The frs_pension2223 table has the smallest number of observations (15233 observations).
+3.  The frs_frs2223 and frs_benunit2223 have the same numbers of observations (28629). Because both tables include data at benefit unit level.
+:::
+
+## 4. The variables
+
+We will only be using a few variables from each table in this exercise. So, we will create subsets data from these four tables, containing the variables we will use in this exercise. The tables below shows the variables (names and labels) that we will select from each FRS table.
+
+| **Variable name**                            | **Variable label**                                        |
+|--------------------------------|----------------------------------------|
+| **Variables from the frs_adult2223 table**   |                                                           |
+| SERNUM                                       | Sernum                                                    |
+| BENUNIT                                      | Benefit Unit                                              |
+| PERSON                                       | Person                                                    |
+| HEALTH1                                      | Whether has a long standing illness                       |
+| SEX                                          | Sex                                                       |
+| IAGEGR4                                      | Individual Adult 5 Year Age Bands - Anon                  |
+| GROSS4                                       | Grossing variable                                         |
+| **Variables from the frs_benunit2223 table** |                                                           |
+| SERNUM                                       | Sernum                                                    |
+| BENUNIT                                      | Benefit Unit                                              |
+| famtypbu                                     | Family Type                                               |
+| **Variables from the frs_pension2223 table** |                                                           |
+| SERNUM                                       | Sernum                                                    |
+| BENUNIT                                      | Benefit Unit                                              |
+| PERSON                                       | Person                                                    |
+| PENPAY                                       | Amount of last payment from pension (continuous variable) |
+| PENTYPE                                      | Pension Type                                              |
+| **Variables from the frs_frs2223 table**     |                                                           |
+| SERNUM                                       | Sernum                                                    |
+| BENUNIT                                      | Benefit Unit                                              |
+| PERSON                                       | Person                                                    |
+| HEALTHHD                                     | Whether has a long standing illness                       |
+| SEX                                          | Sex                                                       |
+| FAMTYPBU                                     | Family Type                                               |
+
+: {.striped .hover}
+
+```{r}
+#Create subset datasets from the original data files  
+#use a pipeline (the %>% operator)  
+#and the "select" function from the dplyr package 
+#the code below only selects the variables we are interested in
+# We will name the new datasets as frs_adult2223_short, frs_benunit2223_short, frs_pension2223, and frs_frs2223_short, respectively. 
+
+frs_adult2223_short <- frs_adult2223 %>% select (SERNUM, BENUNIT, PERSON, GROSS4, HEALTH1, SEX, IAGEGR4) 
+frs_benunit2223_short <- frs_benunit2223 %>% select (SERNUM, BENUNIT, famtypbu) 
+frs_pension2223_short <- frs_pension2223%>% select (SERNUM, BENUNIT, PERSON, PENPAY, PENTYPE) 
+frs_frs2223_short <- frs_frs2223%>% select (SERNUM, BENUNIT, PERSONHD, HEALTHHD, SEXHD, FAMTYPBU) 
+```
+
+# The hierarchical tables
+
+## Explore the datasets
+
+Let’s start by having a quick look at the three newly generated datasets frs_adult2223_short, frs_benunit222_short and frs_pension2223_short.
+
+We will start with the frs_adult2223_short dataset. Either inspect variables and cases in the data editor \[run the code `View(dataframe)`\] or use the code below to produce a summary of the variables in the dataset.
+
+```{r}
+dim(frs_adult2223_short)      #Gives the number of rows (observations) and columns (variables)
+```
+
+```{r}
+names(frs_adult2223_short)    #List variable names in their actual order in the dataset
+```
+
+```{r}
+head(data.frame(frs_adult2223_short))     #Displays the first six lines of a dataset
+```
+
+**Note**: You can use `tail(data.frame(frs_adult2223_short))` to display the last few rows of a dataset.
+
+Now, let’s also have a look at the frs_benunit2223_short dataset.
+
+```{r}
+dim(frs_benunit2223_short)    #Gives the number of rows (observations) and columns (variables)
+```
+
+```{r}
+names(frs_benunit2223_short)  #List variable names in their actual order in the dataset
+```
+
+```{r}
+head(data.frame(frs_benunit2223_short))     #Displays the first six lines of a dataset
+```
+
+Let’s learn more about the variables.
+
+**Note**: The  `haven`  R package facilitates the conversion of categorical data from SPSS or Stata into R. While it can preserve the original numeric values, it also contains attributes, which are special types of R objects with names that are accessible via the `attr()` function. In this context, each variable has two key attributes: a ‘label’, which is the description of the variable, and ‘labels’, which are the value labels.
+
+Furthermore, the `haven` R package allows for the conversion of these imported numeric variables into R factors. In this conversion, the factors are created with levels (i.e., categories) reflecting the value labels from SPSS or Stata.
+
+Let’s examine the variables’ description and value labels of HEALTH1, SEX and IAGEGR4 from frs_adult2223_short dataset, and the variables’ description and value labels of famtypbu from frs_benunit2223_short dataset.
+
+```{r}
+cat(attr(frs_adult2223_short$HEALTH1,"label"))
+```
+
+```{r}
+names(attr(frs_adult2223_short$HEALTH1,"labels"))
+```
+
+```{r}
+cat(attr(frs_adult2223_short$SEX,"label"))
+```
+
+```{r}
+names(attr(frs_adult2223_short$SEX,"labels"))
+```
+
+```{r}
+cat(attr(frs_adult2223_short$IAGEGR4,"label"))
+```
+
+```{r}
+names(attr(frs_adult2223_short$IAGEGR4,"labels"))
+```
+
+```{r}
+cat(attr(frs_benunit2223_short$famtypbu,"label"))
+```
+
+```{r}
+names(attr(frs_benunit2223_short$famtypbu,"labels"))
+```
+
+**Your turn!**
+
+Use the frs_pension2223_short dataset to get an idea about the variables.
+
+1.  List the names of the variables in frs_pension2223_short dataset. Use `names()` function.
+2.  Return the six first rows in frs_pension2223_short dataset. Use `head()` function.
+3.  Create labels and labels attributes for the variables PENPAY and PENTYPE. Use `cat(attr())` and `names(attr())` functions.
+
+**Outcome!**
+
+1.  Names of the variables in frs_pension2223_short dataset:
+
+```{r}
+names(frs_pension2223_short) 
+```
+
+2.  The six first rows in frs_pension2223_short dataset:
+
+```{r}
+head(data.frame(frs_pension2223_short))
+```
+
+3.  Labels and labels attributes for the variables PENPAY and PENTYPE:
+
+-   Label of the variable **PENPAY**:
+
+```{r}
+cat(attr(frs_pension2223_short$PENPAY,"label"))
+```
+
+-   Label attribute of the variable **PENPAY**:
+
+```{r}
+names(attr(frs_pension2223_short$PENPAY,"labels"))
+```
+
+-   Label of the variable **PENTYPE**:
+
+```{r}
+cat(attr(frs_pension2223_short$PENTYPE,"label"))
+```
+
+-   Label attribute for the variable **PENTYPE**:
+
+```{r}
+names(attr(frs_pension2223_short$PENTYPE,"labels"))
+```
+
+::: panel-tabset
+## Questions
+
+1.  What is the value for ‘Amount of last pension payment’ of person 2 from benefit unit 1 with serial no. 16 in the frs_pension2223_short dataset?
+2.  Why is the outcome of the ‘labels’ attribute of ‘PENPAY’ NULL?
+
+## Answers
+
+1.  The value for ‘Amount of last pension payment’ of person 2 from benefit unit 1 with serial no. 16 in the frs_pension2223_short dataset is 53.00745.
+2.  PENPAY is a continuous variable that measures ‘Amount of last payment from pension’; therefore, the outcome of 'labels' attribute of PENPAY is NULL.
+:::
+
+## Descriptive analysis
+
+### Examining variables
+
+Let’s now examine the frequency of the variables HEALTH1, SEX, and IAGEGR4 in the frs_adult2223_short dataset.
+
+We can use the `table()` function to create a frequency table.
+
+```{r}
+table (frs_adult2223_short$HEALTH1)     #Create a frequency table for the variable HEALTH1 
+```
+
+```{r}
+table(frs_adult2223_short$SEX)          #Create a frequency table for the variable SEX
+```
+
+```{r}
+table(frs_adult2223_short$IAGEGR4)      #Create a frequency table for the variable IAGEGR4
+```
+
+We can use the `as_factor()` function (included in the `haven` package) to convert the categorical variables HEALTH1, SEX, and IAGEGR4 into factor variables. The newly generated factor variables HEALTH1f, SEXf, and IAGEGR4f are equivalent to categorical variables.
+
+```{r}
+frs_adult2223_short$HEALTH1f<-as_factor(frs_adult2223_short$HEALTH1)      #Create a new factor variable HEALTH1f from the original variable HEALTH1
+```
+
+```{r}
+frs_adult2223_short$SEXf<-as_factor(frs_adult2223_short$SEX)            # Create a new factor variable SEXf from the original variable SEX     
+```
+
+```{r}
+frs_adult2223_short$IAGEGR4f<-as_factor(frs_adult2223_short$IAGEGR4)    # Create a new factor variable IAGEGR4f from the original variable IAGEGR4
+```
+
+```{r}
+table(frs_adult2223_short$HEALTH1f)       # Create a frequency table for the new factor variable HEALTH1f
+```
+
+```{r}
+table(frs_adult2223_short$SEXf)           # Create a frequency table for the new factor variable SEXf
+```
+
+```{r}
+table(frs_adult2223_short$IAGEGR4f)       # Create a frequency table for the new factor variable IAGEGR4f
+```
+
+Let’s now examine the frequency of the variable famtypbu in the frs\_ benunit2223_short dataset.
+
+```{r}
+table (frs_benunit2223_short$famtypbu)  # Create a frequency table for the variable famtypbu  
+```
+
+```{r}
+frs_benunit2223_short$famtypbuf<-as_factor(frs_benunit2223_short$famtypbu) # Create a new factor variable famtypbuf from the original variable famtypbu
+```
+
+```{r}
+table(frs_benunit2223_short$famtypbuf)  # Create a frequency table for the new factor variable famtypbuf
+```
+
+The amount of last payment from pension PENPAY is a continuous variable. So, we will use `summary()` instead of `table()`. The `summary()` function provides a summary of the main statistics including the minimum and maximum values, the mean, the median and the quartiles. This function is useful for assessing and detecting extreme values.
+
+```{r}
+ summary(frs_pension2223_short$PENPAY)      #Create a summary table for the variable PENPAY
+```
+
+**Your turn!**
+
+Use the frs_pension2223_short dataset to examine respondents’ pension type PENTYPE.
+
+1.  Create a frequency table to measure pension type PENTYPE. Use `table()` function
+2.  Assess the results and decide if you need to convert PENTYPE into a factor variable. Use `as_factor` if needed.
+
+**Outcome!**
+
+1.  Frequency table of PENTYPE from the frs\_ pension2223_short dataset:
+
+```{r}
+table (frs_pension2223_short$PENTYPE)       # Create a frequency table for the variable PENTYPE
+```
+
+2.  Converting PENTYPE into a factor variable PENTYPEf
+
+```{r}
+frs_pension2223_short$PENTYPEf<-as_factor(frs_pension2223_short$PENTYPE)    # Create a new factor variable PENTYPEf from the original variable 'PENTYPE’
+```
+
+3.  Frequency table of the new factor variable PENTYPEf
+
+```{r}
+table(frs_pension2223_short$PENTYPEf)       # Create a frequency table for the new factor variable PENTYPEf
+```
+
+# The Flat File
+
+## Explore the datasets
+
+Let’s have a look at frs_frs2223_short dataset, the short version we have created from the flat file frs_frs2223.
+
+```{r}
+dim(frs_frs2223_short)        #Gives the number of rows (observations) and columns (variables)
+```
+
+```{r}
+names(frs_frs2223_short)      #List variable names in their actual order in the dataset
+```
+
+```{r}
+head(data.frame(frs_frs2223_short))       #Displays the first six lines of a dataset
+```
+
+Now, let’s learn more about the available variables.
+
+We will use the `attr()` function to get variables attributes ‘label’, which is the descriptions of the variable, and ‘labels’, which are the value labels.
+
+Let’s examine the variables’ descriptions and value labels of HEALTHHD and SEXHD from frs_frs2223_short dataset.
+
+```{r}
+cat(attr(frs_frs2223_short$HEALTHHD,"label")) 
+```
+
+```{r}
+names(attr(frs_frs2223_short$HEALTHHD,"labels"))
+```
+
+```{r}
+cat(attr(frs_frs2223_short$SEXHD,"label"))
+```
+
+```{r}
+names(attr(frs_frs2223_short$SEXHD,"labels"))
+```
+
+**Note**: the outcome of the ‘labels’ of SEXHD is **Null** because the value labels of SEXHD in the original dataset is entered as None. 
+
+What about variable’s description and value label of FAMTYPBU from frs_frs2223_short dataset?
+
+```{r}
+cat(attr(frs_frs2223_short$FAMTYPBU,"label"))
+```
+
+```{r}
+names(attr(frs_frs2223_short$FAMTYPBU,"labels"))
+```
+
+::: panel-tabset
+## Questions
+
+Compare the descriptions and value labels of the variables that measure long standing illness 'HEALTH1' and Sex 'SEX' (in frs_adult2223_short datasets) and Family type 'famtypbu' (in the frs_benunit2223_short dataset) with those that measures the same variables in frs_frs2223_short dataset (HEALTHHD, SEXHD and FAMTYPBU, respectively).
+
+## Answers
+
+(a) Long standing illness in frs_adult2223_short dataset: both the descriptions and value labels are same as in the flat file. (b) Sex in frs_adult2223_short dataset: only variable descriptions is same as in the flat file. (c) Family type in the frs_benunit2223_short dataset: both the description and value labels are same as in the flat file.
+
+However, the variables' names in the flat file are slightly different than those in the hierarchical files.
+:::
+
+## Descriptive analysis
+
+### Examining variables
+
+Let’s now examine the frequency of the variables HEALTHHD, SEXHD and FAMTYPBU in frs_frs2223_short dataset.
+
+We will use the `table()` function to create frequency tables.
+
+```{r}
+table(frs_frs2223_short$HEALTHHD)
+```
+
+```{r}
+table(frs_frs2223_short$SEXHD)
+```
+
+```{r}
+table(frs_frs2223_short$FAMTYPBU)
+```
+
+To understand the results, we will use the `as_factor()` function to convert the categorical variables HEALTHHD, SEXHD, and FAMTYPBU into the factor variables HEALTHHDf, SEXHDf, and FAMTYPBUf.
+
+```{r}
+frs_frs2223_short$HEALTHHDf<-as_factor(frs_frs2223_short$HEALTHHD)     # Create a new factor variable HEALTHHDf from the original variable HEALTHHD
+```
+
+```{r}
+frs_frs2223_short$SEXHDf<-as_factor(frs_frs2223_short$SEXHD)         # Create a new factor variable SEXHDf from the original variable SEXHD
+```
+
+```{r}
+frs_frs2223_short$ FAMTYPBUf <-as_factor(frs_frs2223_short$FAMTYPBU)  # Create a new factor variable FAMTYPBUf from the original variable FAMTYPBU 
+```
+
+```{r}
+table(frs_frs2223_short$HEALTHHDf)            # Create a frequency table for the new factor variable HEALTHHDf
+```
+
+```{r}
+table(frs_frs2223_short$SEXHDf)               # Create a frequency table for the new factor variable SEXHDf      
+```
+
+**Note**: the values of some variables in the flat file table (such as SEXHD) are not labeled, even though they are labeled in the hierarchical tables. Therefore, the value labels in the frequency table of the new factor variable SEXHDf haven’t changed after converting the original variable SEXHD into a factor variable, as the value of SEXHD in the original dataset is entered as 'None'.
+
+What about the frequency table of the new factor variable FAMTYPBUf from frs_frs2223_short dataset?
+
+```{r}
+table(frs_frs2223_short$FAMTYPBUf)            # Create a frequency table for the new factor variable FAMTYPBUf
+```
+
+::: panel-tabset
+## Questions
+
+1.  How many observations are lone parent?
+2.  How many observations are not long standing illness?
+3.  What do you notice about the frequencies of FAMTYPBUf in frs_frs2223_short dataset and the frequencies of the same variable famtypbuf in frs_benunit2223_short dataset?
+
+## Answers
+
+1.  There are 1563 lone parent.
+2.  There are 15854 persons responded didn’t have long standing illness.
+3.  The frequencies of the variables FAMTYPBUf in frs_frs2223_short dataset and famtypbuf in frs_benunit2223_short dataset are exactly the same as expected.
+:::
