@@ -25,14 +25,13 @@ h3-color: "#742082"
 h4-color: "#742082"
 ---
 
-Since the FRS data are structured as a relational database collected at different levels—households, families (benefit units), and individuals (persons)—and provided in multiple files, you may at some point want to conduct analysis across different levels. Some files focus on specialised topics such as assets, childcare, mortgages, and pensions, which may require exploring associations between variables entered in separate files.
+Since the FRS data are collected at different levels—households, families (benefit units), and individuals (persons)—and provided in multiple files, you may at some point want to conduct analysis across different levels. Some files focus on specialised topics such as assets, childcare, mortgages, and pensions, which may require exploring associations between variables entered in separate files.
 
 For example, what if we want to examine how pension type varies across genders?
 
 In that case, it is necessary to combine data, as the two variables of interest are entered in different FRS datasets.
 
 In this exercise, we will show how to merge data from the 2022–2023 Family Resources Survey (FRS) to explore the association between variables available in various FRS datasets. We will also assess the effect of survey weights on the results using R.
-
 
 # Getting started
 
@@ -220,7 +219,7 @@ The amount of last payment from pension PENPAY is a continuous variable. So, we 
 
 # Merging datasets
 
-To merge data, you need to use a common identifier - unique keys present across all datasets involved in the merge. 
+To merge data, you need to use a common identifier - unique keys present across all datasets involved in the merge.
 
 The Background Information and Methodology document within the [FRS 2022-23 documentation](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=9252#!/documentation) provides us with the necessary information: what are the available identifiers and how to use them depending on which datasets we want to merge.
 
@@ -345,7 +344,7 @@ The weights in the FRS also ensure that estimates reflect the sample design so t
 2.  We summarise the weighed and unweighted percentages of PENTYPEf in the table below to make the comparison easier:
 
 | **PENTYPEf**                                                 | **Weighted (%)** | **Unweighted (%)** |
-|-----------------------------------------|----------------|----------------|
+|--------------------------------------|-----------------|-----------------|
 | Employee pension - occupational, workplace, group personal   | 73.37            | 73.24              |
 | Individual personal pension                                  | 18.32            | 18.68              |
 | Survivor‹s pension (workplace or individual personal pension | 5.94             | 5.78               |

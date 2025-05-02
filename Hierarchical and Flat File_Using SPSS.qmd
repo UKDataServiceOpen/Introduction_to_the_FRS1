@@ -121,7 +121,7 @@ You will notice that the frs2223.sav table has the largest number of variables (
 We will only be using a few variables from each table in this exercise. So, we will create subsets data from these four tables, containing the variables we will use in this exercise. The tables below shows the variables (names and labels) that we will select from each FRS table.
 
 | **Variable name**                    | **Variable label**                                        |
-|-----------------------------|-------------------------------------------|
+|--------------------------------------|-----------------------------------------------------------|
 | **Variables from the adult table**   |                                                           |
 | SERNUM                               | Sernum                                                    |
 | BENUNIT                              | Benefit Unit                                              |

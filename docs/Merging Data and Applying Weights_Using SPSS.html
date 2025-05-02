@@ -220,7 +220,7 @@ background: white;
 
 
 
-<p>Since the FRS data are structured as a relational database collected at different levels—households, families (benefit units), and individuals (persons)—and provided in multiple files, you may at some point want to conduct analysis across different levels. Some files focus on specialised topics such as assets, childcare, mortgages, and pensions, which may require exploring associations between variables entered in separate files.</p>
+<p>Since the FRS data are collected at different levels—households, families (benefit units), and individuals (persons)—and provided in multiple files, you may at some point want to conduct analysis across different levels. Some files focus on specialised topics such as assets, childcare, mortgages, and pensions, which may require exploring associations between variables entered in separate files.</p>
 <p>For example, what if we want to examine how pension type varies across genders?</p>
 <p>In that case, it is necessary to combine data, as the two variables of interest are entered in different FRS datasets.</p>
 <p>In this exercise, we will show how to merge data from the 2022–2023 Family Resources Survey (FRS) to explore the association between variables available in various FRS datasets. We will also assess the effect of survey weights on the results using SPSS.</p>
@@ -469,6 +469,7 @@ CROSSTABS
 <section id="applying-the-weight" class="level1">
 <h1>Applying the weight</h1>
 <p>Now, we will apply the <code>WEIGHT</code> command to create <strong>weighted frequencies and percentages</strong> for the variable PENTYPE. We will then compare the results with the unweighted analyses.</p>
+<p><strong>Note</strong>: some weighting methods interpret weighted counts as sample sizes, leading to inaccurate standard errors and confidence intervals, particularly when weights scale to the population size. This affects standard SPSS weighting procedures, so for accurate standard errors with FRS, the Complex Samples commands should be used (available in SPSS Premium or as an add-on). However, the standard SPSS weighting commands can still calculate estimates such as means, proportions, or weighted frequencies, as shown in the example below.</p>
 <p><strong>PENTYPE (weighted frequency table)</strong></p>
 <ol type="1">
 <li>We first apply the weight GROSS4 on cases using the code below:</li>
@@ -522,9 +523,9 @@ FREQUENCIES VARIABLES=PENTYPE
 </ol>
 <table class="table-striped table-hover table">
 <colgroup>
-<col style="width: 56%">
-<col style="width: 21%">
-<col style="width: 21%">
+<col style="width: 52%">
+<col style="width: 23%">
+<col style="width: 23%">
 </colgroup>
 <thead>
 <tr class="header">

@@ -1,7 +1,7 @@
 ---
 title: "Introduction to the Family Resources Survey: R and SPSS Practical Exercises"
 author: "UK Data Service"
-published: "April 2025"
+published: "May 2025"
 ---
 
 These practical exercises are part of the ‘Getting started with the Family Resources Survey’ online module.
