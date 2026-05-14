@@ -8,15 +8,15 @@ Direct links to the exercises on GitHub Pages:
 
 **R version:**
 
-  •	Exercise 1: The Hierarchical and Flat File Datasets.
+  •	[Exercise 1: The Hierarchical and Flat File Datasets](https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20R.html).
+  
+  •	[Exercise 2: Merging Data and Applying Weights](https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Merging%20Data%20and%20Applying%20Weights_Using%20R.html).
 
-  •	Exercise 2: Merging Data and Applying Weights.
 
 
 **SPSS version:**
 
-  •	Exercise 1: The Hierarchical and Flat File Datasets.
-
-  •	Exercise 2: Merging Data and Applying Weights.
-
+  •	[Exercise 1: The Hierarchical and Flat File Datasets](https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Hierarchical%20and%20Flat%20File_Using%20SPSS.html).
+  
+  •	[Exercise 2: Merging Data and Applying Weights](https://ukdataserviceopen.github.io/Introduction_to_the_FRS1/Merging%20Data%20and%20Applying%20Weights_Using%20SPSS.html).
 
